@@ -10,6 +10,9 @@ import java.util.List;
 @Table(name = "question")
 @Data
 public class Question {
+    public static enum DocType {
+        singleQ, multiQ, comment
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +20,7 @@ public class Question {
     private Integer questionId;
 
     @Column(nullable = false)
-    private String docType;
+    private DocType docType;
 
     @Column(nullable = false)
     private boolean requirement;
@@ -36,7 +39,7 @@ public class Question {
     @Version
     private Integer version;
 
-    public Question(String docType, boolean requirement){
+    public Question(DocType docType, boolean requirement){
         this.docType = docType;
         this.requirement = requirement;
         this.createDate = java.sql.Date.valueOf(LocalDate.now());
