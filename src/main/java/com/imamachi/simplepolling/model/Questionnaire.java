@@ -22,4 +22,8 @@ public class Questionnaire {
 
     @Column(nullable = false)
     private String title;
+
+    public Questionnaire(String title){
+        this.title = title;
+    }
 }

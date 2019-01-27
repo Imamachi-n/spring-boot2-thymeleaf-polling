@@ -14,9 +14,15 @@ public class ResultDetail {
     @Column(nullable = false,updatable = false)
     private Integer resultDetailId;
 
-    @Column(nullable = false)
-    private Integer questionDetailId;
-
+    // 質問事項
     @Column(nullable = false)
     private String description;
+
+    // 回答
+    @Column(nullable = false)
+    private String answer;
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "resultId", nullable = false)
+    private Result result;
 }
