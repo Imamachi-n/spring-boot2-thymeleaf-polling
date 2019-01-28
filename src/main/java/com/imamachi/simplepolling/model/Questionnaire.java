@@ -20,6 +20,7 @@ public class Questionnaire {
     @Column(nullable = false,updatable = false)
     private Integer questionnaireId;
 
+    // アンケートのタイトル
     @Column(nullable = false)
     private String title;
 

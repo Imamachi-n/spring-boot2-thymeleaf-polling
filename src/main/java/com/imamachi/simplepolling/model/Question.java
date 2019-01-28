@@ -49,6 +49,8 @@ public class Question {
     @Version
     private Integer version;
 
+    public Question(){}
+
     public Question(DocType docType, boolean requirement, String questionDesc,
                     List<QuestionDetail> questionDetail, Questionnaire questionnaire){
         this.docType = docType;

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>アンケート作成システム - トップページ</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>
+    <link href="//css/base.css" th:href="@{/css/base.css}" rel="stylesheet" />
+</head>
+<body style="padding-top: 70px">
+
+<!-- menu -->
+<div th:replace="/fragments/menu :: menu(target = 'home')"></div>
+<!-- end of menu -->
+
+<!-- main container -->
+<div class="container"><br/>
+    <!-- jumbotron -->
+    <div class="jumbotron">
+        <h1 class="display-4">アンケートを作成しよう</h1>
+        <p class="lead">アンケート作成システムを使って、アンケートフォームを作成・管理しましょう。</p>
+        <hr class="my-4">
+        <p>まずは新しいアンケートフォームを作成してみよう。</p>
+        <a class="btn btn-primary btn-lg" href="/create/questionNew" role="button">アンケート作成へ→</a>
+    </div>
+    <!-- end of jumbotron -->
+</div>
+<!-- end of main container -->
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:href="@{/webjars/font-awesome/js/all.js}"></script>
+</body>
+</html>
