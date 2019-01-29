@@ -23,4 +23,10 @@ public class QuestionForm {
     // 説明
     @Valid
     private Collection<QuestionDetailForm> questionDetails;
+
+    public QuestionForm(Question.DocType docType, boolean requirement){
+        this.docType = docType;
+        this.requirement = requirement;
+    }
+
 }

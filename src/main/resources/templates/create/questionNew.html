@@ -25,7 +25,7 @@
     <div class="container">
         <!-- CSRFトークンを埋め込むのに必要 th:action="@{/item/confirm}" -->
         <!-- CSRFトークンがないと、Request method 'POST' not supportedとエラーになる -->
-        <form method="post" action="/create/questionNew" th:action="@{/create/questionNew}" th:object="${questionForm}">
+        <form method="post" action="/create/questionNew" th:action="@{/create/questionNew}" th:object="${questionRootForm}">
             <div class="form-group row">
                 <label for="questionTitle" class="col-sm-2 col-form-label">アンケートタイトル</label>
                 <div class="col-sm-10">
@@ -34,16 +34,20 @@
             </div>
 
             <div class="accordion" id="accordionExample">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
+                <!-- start of card -->
+                <div class="card" th:each="questionForm, status : ${questionRootForm.questions}">
+                    <div class="card-header" th:id="'heading' + ${status.index}">
                         <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                アンケート質問１
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    th:attr="data-target='#collapse' + ${status.index},aria-controls='collapse' + ${status.index}"
+                                    aria-expanded="true"
+                                    th:text="'アンケート質問' + ${status.index + 1}">
                             </button>
                         </h2>
                     </div>
 
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div th:id="'collapse' + ${status.index}" class="collapse" th:classappend="${status.index == 0} ? 'show'"
+                         th:attr="aria-labelledby='heading' + ${status.index}" data-parent="#accordionExample">
                         <div class="card-body">
                             <!-- start of content -->
                             <!-- 質問事項 -->
@@ -161,258 +165,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                アンケート質問2
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                        <div class="card-body">
-                            <!-- start of content -->
-                            <!-- 質問事項 -->
-                            <h5>Q.</h5>
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">質問事項</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="questionDesc" placeholder="質問内容を記載してください。">
-                                </div>
-                            </div>
-
-                            <!-- ドキュメントタイプ -->
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">ドキュメントタイプ</label>
-                                <div class="col-sm-10">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            単一選択回答
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            複数選択回答
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            コメント回答
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
-                                <div class="col-sm-10">
-                                    <!-- 1 -->
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="回答内容を記載してください。">
-                                    </div>
-
-                                    <!-- 2 -->
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="質問内容を記載してください。">
-                                    </div>
-
-                                    <!-- 3 -->
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="質問内容を記載してください。">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
-                                <div class="col-sm-10">
-                                    <!-- 1 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" disabled>
-                                        <label class="form-check-label" for="inlineRadio1">とても当てはまる</label>
-                                    </div>
-                                    <!-- 2 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" disabled>
-                                        <label class="form-check-label" for="inlineRadio2">まあまあ当てはまる</label>
-                                    </div>
-                                    <!-- 3 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" checked disabled>
-                                        <label class="form-check-label" for="inlineRadio3">どちらでもない</label>
-                                    </div>
-                                    <!-- 4 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option1" disabled>
-                                        <label class="form-check-label" for="inlineRadio4">ほとんど当てはまらない</label>
-                                    </div>
-                                    <!-- 5 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option2" disabled>
-                                        <label class="form-check-label" for="inlineRadio5">全く当てはまらない</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
-                                <div class="col-sm-10">
-                                    <div class="mb-3">
-                                        <textarea class="form-control" id="validationTextarea" placeholder="自由にコメントを記載してください。" disabled></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--　end of content　-->
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                アンケート質問3
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                        <div class="card-body">
-                            <!-- start of content -->
-                            <!-- 質問事項 -->
-                            <h5>Q.</h5>
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">質問事項</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="questionDesc" placeholder="質問内容を記載してください。">
-                                </div>
-                            </div>
-
-                            <!-- ドキュメントタイプ -->
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">ドキュメントタイプ</label>
-                                <div class="col-sm-10">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            単一選択回答
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            複数選択回答
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            コメント回答
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
-                                <div class="col-sm-10">
-                                    <!-- 1 -->
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="回答内容を記載してください。">
-                                    </div>
-
-                                    <!-- 2 -->
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="質問内容を記載してください。">
-                                    </div>
-
-                                    <!-- 3 -->
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="質問内容を記載してください。">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
-                                <div class="col-sm-10">
-                                    <!-- 1 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" disabled>
-                                        <label class="form-check-label" for="inlineRadio1">とても当てはまる</label>
-                                    </div>
-                                    <!-- 2 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" disabled>
-                                        <label class="form-check-label" for="inlineRadio2">まあまあ当てはまる</label>
-                                    </div>
-                                    <!-- 3 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" checked disabled>
-                                        <label class="form-check-label" for="inlineRadio3">どちらでもない</label>
-                                    </div>
-                                    <!-- 4 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option1" disabled>
-                                        <label class="form-check-label" for="inlineRadio4">ほとんど当てはまらない</label>
-                                    </div>
-                                    <!-- 5 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option2" disabled>
-                                        <label class="form-check-label" for="inlineRadio5">全く当てはまらない</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
-                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
-                                <div class="col-sm-10">
-                                    <div class="mb-3">
-                                        <textarea class="form-control" id="validationTextarea" placeholder="自由にコメントを記載してください。" disabled></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--　end of content　-->
-                        </div>
-                    </div>
-                </div>
+                <!-- end of card -->
             </div>
             <br/>
             <button type="submit" class="btn btn-primary">登録する</button>
