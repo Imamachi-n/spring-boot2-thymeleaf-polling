@@ -34,6 +34,23 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <div class="col-sm-2 mr-1">
+                    <select class="form-control" name="addDocType">
+                        <option value="singleQ">単一選択回答</option>
+                        <option value="multiQ">複数選択回答</option>
+                        <option value="commentQ">コメント回答</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-2 ml-0">
+                    <button type="submit" class="btn btn-primary"
+                            th:name="submit" th:value="'question:add:0'">
+                        質問を追加する
+                    </button>
+                </div>
+            </div>
+
             <div class="accordion" id="accordionExample">
                 <!-- start of card -->
                 <div th:id="'accordion' + ${status.index}" class="card" th:each="questionForm, status : ${questionRootForm.questions}">
@@ -47,7 +64,8 @@
                         </h2>
                     </div>
 
-                    <div th:id="'collapse' + ${status.index}" class="collapse" th:classappend="${status.index == 0} ? 'show'"
+                    <!-- th:classappend 変更を加えた質問事項を開く -->
+                    <div th:id="'collapse' + ${status.index}" class="collapse" th:classappend="${status.index == accordionExpandIndex} ? 'show'"
                          th:attr="aria-labelledby='heading' + ${status.index}" data-parent="#accordionExample">
                         <div class="card-body">
                             <!-- start of content -->
@@ -167,23 +185,7 @@
                 <!-- end of card -->
             </div>
 
-            <div class="form-group row">
-                <div class="col-sm-2 mr-1">
-                    <select class="form-control" name="addDocType">
-                        <option value="singleQ">単一選択回答</option>
-                        <option value="multiQ">複数選択回答</option>
-                        <option value="commentQ">コメント回答</option>
-                    </select>
-                </div>
 
-                <div class="col-sm-2 ml-0">
-                    <button type="submit" class="btn btn-primary"
-                            th:name="submit" th:value="'question:add:0'">
-                        質問を追加する
-                    </button>
-                </div>
-
-            </div>
 
             <br/>
             <button type="submit" class="btn btn-primary">登録する</button>

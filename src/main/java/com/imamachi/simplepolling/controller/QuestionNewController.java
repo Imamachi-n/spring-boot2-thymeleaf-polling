@@ -78,8 +78,10 @@ public class QuestionNewController {
                     questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
                 }
             }else if (type.equals("question")){
+                // 質問を追加
                 if(action.equals("add")){
                     List<QuestionForm> questions = questionRootForm.getQuestions();
+                    index = questions.size();
                     ArrayList<QuestionDetailForm> questionDetailForms = new ArrayList<>();
                     if(addDocType.equals("singleQ")) {
                         QuestionForm questionForm = new QuestionForm(Question.DocType.singleQ, true);
@@ -106,7 +108,7 @@ public class QuestionNewController {
                 }
             }
 
-//            model.addAttribute("accordionExpandIndex", index);
+            model.addAttribute("accordionExpandIndex", index);
             model.addAttribute("questionRootForm", questionRootForm);
             return "/create/questionNew";
         }
