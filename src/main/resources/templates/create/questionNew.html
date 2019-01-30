@@ -65,128 +65,86 @@
                                 <label for="questionDesc" class="col-sm-2 col-form-label">ドキュメントタイプ</label>
                                 <div class="col-sm-10">
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="submit" class="btn"
+                                        <!-- 単一選択回答 -->
+                                        <button type="button" class="btn"
                                                 th:classappend="${questionForm.docType.toString() == 'singleQ'} ? 'btn-primary' : 'btn-secondary'"
                                                 th:field="*{questions[__${status.index}__].docType}" th:value="'singleQ'">
                                             単一選択回答
                                         </button>
-                                        <button type="submit" class="btn"
+                                        <!-- Formオブジェクトに渡す値を格納 -->
+                                        <input type="hidden" th:if="${questionForm.docType.toString() == 'singleQ'}"
+                                               th:field="*{questions[__${status.index}__].docType}" th:value="'singleQ'">
+
+                                        <!-- 複数選択回答 -->
+                                        <button type="button" class="btn"
                                                 th:classappend="${questionForm.docType.toString() == 'multiQ'} ? 'btn-primary' : 'btn-secondary'"
                                                 th:field="*{questions[__${status.index}__].docType}" th:value="'multiQ'">
                                             複数選択回答
                                         </button>
-                                        <button type="submit" class="btn"
+                                        <!-- Formオブジェクトに渡す値を格納 -->
+                                        <input type="hidden" th:if="${questionForm.docType.toString() == 'multiQ'}"
+                                               th:field="*{questions[__${status.index}__].docType}" th:value="'multiQ'">
+
+                                        <!-- コメント回答 -->
+                                        <button type="button" class="btn"
                                                 th:classappend="${questionForm.docType.toString() == 'commentQ'} ? 'btn-primary' : 'btn-secondary'"
                                                 th:field="*{questions[__${status.index}__].docType}" th:value="'commentQ'">
                                             コメント回答
                                         </button>
+                                        <!-- Formオブジェクトに渡す値を格納 -->
+                                        <input type="hidden" th:if="${questionForm.docType.toString() == 'commentQ'}"
+                                               th:field="*{questions[__${status.index}__].docType}" th:value="'commentQ'">
                                     </div>
                                 </div>
                             </div>
 
-                            <!--<div class="form-group row">-->
-                                <!--<label for="questionDesc" class="col-sm-2 col-form-label">ドキュメントタイプ</label>-->
-                                <!--<div class="col-sm-10">-->
-                                    <!--<div class="form-check">-->
-                                        <!--<input class="form-check-input" type="radio"-->
-                                               <!--th:field="*{questions[__${status.index}__].docType}"-->
-                                               <!--th:value="'singleQ'"-->
-                                               <!--th:id="'exampleRadios1' + ${status.index}">-->
-                                        <!--<label class="form-check-label" th:for="'exampleRadios1' + ${status.index}">-->
-                                            <!--単一選択回答-->
-                                        <!--</label>-->
-                                    <!--</div>-->
-                                    <!--<div class="form-check">-->
-                                        <!--<input class="form-check-input" type="radio"-->
-                                               <!--th:field="*{questions[__${status.index}__].docType}"-->
-                                               <!--th:value="'multiQ'"-->
-                                               <!--th:id="'exampleRadios2' + ${status.index}">-->
-                                        <!--<label class="form-check-label" th:for="'exampleRadios2' + ${status.index}">-->
-                                            <!--複数選択回答-->
-                                        <!--</label>-->
-                                    <!--</div>-->
-                                    <!--<div class="form-check">-->
-                                        <!--<input class="form-check-input" type="radio"-->
-                                               <!--th:field="*{questions[__${status.index}__].docType}"-->
-                                               <!--th:value="'commentQ'"-->
-                                               <!--th:id="'exampleRadios3' + ${status.index}">-->
-                                        <!--<label class="form-check-label" th:for="'exampleRadios3' + ${status.index}">-->
-                                            <!--コメント回答-->
-                                        <!--</label>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
+                            <!-- 単一選択回答 - 選択事項 -->
+                            <div class="form-group row" th:if="${questionForm.docType.toString() == 'singleQ'}">
                                 <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
                                 <div class="col-sm-10">
-                                    <!-- 1 -->
-                                    <div class="input-group mb-3">
+                                    <!-- 単一選択回答内容 -->
+                                    <div class="input-group mb-3" th:each="questionDetails, statusDetail : ${questionForm.questionDetails}">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
+                                                <input type="radio" aria-label="Checkbox for following text input" checked disabled>
                                             </div>
                                         </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="回答内容を記載してください。">
+                                        <input type="text" class="form-control" aria-label="Text input with checkbox"
+                                               placeholder="回答内容を記載してください。"
+                                               th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}">
                                     </div>
 
-                                    <!-- 2 -->
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="質問内容を記載してください。">
-                                    </div>
-
-                                    <!-- 3 -->
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox" placeholder="質問内容を記載してください。">
-                                    </div>
+                                    <button type="submit" class="btn btn-primary"
+                                            th:name="submit" th:value="'singleQ:' + ${status.index}">
+                                        回答項目を追加する
+                                    </button>
                                 </div>
                             </div>
 
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
+                            <!-- 複数選択回答 - 選択事項 -->
+                            <div class="form-group row" th:if="${questionForm.docType.toString() == 'multiQ'}">
                                 <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
                                 <div class="col-sm-10">
-                                    <!-- 1 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" disabled>
-                                        <label class="form-check-label" for="inlineRadio1">とても当てはまる</label>
+                                    <!-- 複数選択回答内容 -->
+                                    <div class="input-group mb-3" th:each="questionDetails, statusDetail : ${questionForm.questionDetails}">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Text input with checkbox"
+                                               placeholder="回答内容を記載してください。"
+                                               th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}">
                                     </div>
-                                    <!-- 2 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" disabled>
-                                        <label class="form-check-label" for="inlineRadio2">まあまあ当てはまる</label>
-                                    </div>
-                                    <!-- 3 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" checked disabled>
-                                        <label class="form-check-label" for="inlineRadio3">どちらでもない</label>
-                                    </div>
-                                    <!-- 4 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option1" disabled>
-                                        <label class="form-check-label" for="inlineRadio4">ほとんど当てはまらない</label>
-                                    </div>
-                                    <!-- 5 -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option2" disabled>
-                                        <label class="form-check-label" for="inlineRadio5">全く当てはまらない</label>
-                                    </div>
+                                    <button type="submit" class="btn btn-primary"
+                                            th:name="submit" th:value="'multiQ:' + ${status.index}">
+                                        回答項目を追加する
+                                    </button>
                                 </div>
                             </div>
 
-                            <!-- 選択事項 -->
-                            <div class="form-group row">
+                            <!-- コメント回答 - 選択事項 -->
+                            <div class="form-group row" th:if="${questionForm.docType.toString() == 'commentQ'}">
                                 <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
                                 <div class="col-sm-10">
                                     <div class="mb-3">
