@@ -2,3 +2,16 @@ body {
     font-family: 'Open Sans', 'Kosugi Maru', 'HG丸ｺﾞｼｯｸM-PRO';
     font-weight: 400;
 }
+
+/* アコーディオンの設定 */
+/* どこを選択しても、開くように仕様変更 */
+.card .card-header a[data-toggle="collapse"] {
+    display: block;
+    padding: .75rem 1.25rem;
+    margin: -.75rem -1.25rem;
+}
+.card .card-header a[data-toggle="collapse"]:active,
+.card .card-header a[data-toggle="collapse"]:hover,
+.card .card-header a[data-toggle="collapse"]:focus {
+    text-decoration: none; //リンクテキストの下線を消す
+}

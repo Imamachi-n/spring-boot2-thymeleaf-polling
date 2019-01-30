@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping("/create")
@@ -48,6 +48,7 @@ public class QuestionNewController {
         questionRootForm.setQuestions(questionForms);
 
         model.addAttribute("questionRootForm", questionRootForm);
+        model.addAttribute("accordionExpandIndex", 0);
         return "/create/questionNew";
     }
 
@@ -57,9 +58,27 @@ public class QuestionNewController {
                                @Validated @ModelAttribute QuestionRootForm questionRootForm,
                                BindingResult result,
                                Model model){
-        System.out.println(submit);
-//        String docType = submit.split("_")[0];
-//        String index = submit.split("_")[1];
+        if(!submit.equals("submit")) {
+            // Indexの取得
+            System.out.println(submit);
+            String action = submit.split(":")[0];   // 追加もしくは削除処理
+            int index = Integer.parseInt(submit.split(":")[1]); // Index
+
+            // TODO: １つしか項目がない場合は、削除できないようにする
+            if(action.equals("add")) {
+                List<QuestionDetailForm> questionDetails = questionRootForm.getQuestions().get(index).getQuestionDetails();
+                questionDetails.add(new QuestionDetailForm());
+                questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
+            }else if(action.equals("delete")){
+                List<QuestionDetailForm> questionDetails = questionRootForm.getQuestions().get(index).getQuestionDetails();
+                questionDetails.remove(questionDetails.size() - 1);
+                questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
+            }
+//            model.addAttribute("accordionExpandIndex", index);
+            model.addAttribute("questionRootForm", questionRootForm);
+            return "/create/questionNew";
+        }
+
         model.addAttribute("questionRootForm", questionRootForm);
         return "/create/questionNew";
     }
