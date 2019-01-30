@@ -61,19 +61,35 @@ public class QuestionNewController {
         if(!submit.equals("submit")) {
             // Indexの取得
             System.out.println(submit);
-            String action = submit.split(":")[0];   // 追加もしくは削除処理
-            int index = Integer.parseInt(submit.split(":")[1]); // Index
+            String type = submit.split(":")[0]; // 質問の追加もしくは項目の追加
+            String action = submit.split(":")[1];   // 追加もしくは削除処理
+            int index = Integer.parseInt(submit.split(":")[2]); // Index
 
             // TODO: １つしか項目がない場合は、削除できないようにする
-            if(action.equals("add")) {
-                List<QuestionDetailForm> questionDetails = questionRootForm.getQuestions().get(index).getQuestionDetails();
-                questionDetails.add(new QuestionDetailForm());
-                questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
-            }else if(action.equals("delete")){
-                List<QuestionDetailForm> questionDetails = questionRootForm.getQuestions().get(index).getQuestionDetails();
-                questionDetails.remove(questionDetails.size() - 1);
-                questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
+            if(type.equals("content")) {
+                if(action.equals("add")) {
+                    List<QuestionDetailForm> questionDetails = questionRootForm.getQuestions().get(index).getQuestionDetails();
+                    questionDetails.add(new QuestionDetailForm());
+                    questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
+                }else if(action.equals("delete")){
+                    List<QuestionDetailForm> questionDetails = questionRootForm.getQuestions().get(index).getQuestionDetails();
+                    questionDetails.remove(questionDetails.size() - 1);
+                    questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
+                }
+            }else if (type.equals("question")){
+                if(action.equals("add")){
+                    List<QuestionForm> questions = questionRootForm.getQuestions();
+                    ArrayList<QuestionDetailForm> questionDetailForms = new ArrayList<>();
+                    questionDetailForms.add(new QuestionDetailForm());
+                    questionDetailForms.add(new QuestionDetailForm());
+                    questionDetailForms.add(new QuestionDetailForm());
+                    QuestionForm questionForm = new QuestionForm(Question.DocType.singleQ, true);
+                    questionForm.setQuestionDetails(questionDetailForms);
+                    questions.add(questionForm);
+                    questionRootForm.setQuestions(questions);
+                }
             }
+
 //            model.addAttribute("accordionExpandIndex", index);
             model.addAttribute("questionRootForm", questionRootForm);
             return "/create/questionNew";
