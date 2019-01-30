@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,11 +22,13 @@ public class QuestionForm {
 
     // 説明
     @Valid
-    private Collection<QuestionDetailForm> questionDetails;
+    private List<QuestionDetailForm> questionDetails;
 
     public QuestionForm(Question.DocType docType, boolean requirement){
         this.docType = docType;
         this.requirement = requirement;
     }
+
+    public QuestionForm(){}
 
 }

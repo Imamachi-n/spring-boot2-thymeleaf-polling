@@ -29,7 +29,8 @@
             <div class="form-group row">
                 <label for="questionTitle" class="col-sm-2 col-form-label">アンケートタイトル</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="questionTitle" placeholder="質問内容を記載してください。">
+                    <input type="text" class="form-control" id="questionTitle" placeholder="質問内容を記載してください。"
+                           th:field="*{title}">
                 </div>
             </div>
 
@@ -51,11 +52,11 @@
                         <div class="card-body">
                             <!-- start of content -->
                             <!-- 質問事項 -->
-                            <h5>Q.</h5>
                             <div class="form-group row">
                                 <label for="questionDesc" class="col-sm-2 col-form-label">質問事項</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="questionDesc" placeholder="質問内容を記載してください。">
+                                    <input type="text" class="form-control" id="questionDesc" placeholder="質問内容を記載してください。"
+                                           th:field="*{questions[__${status.index}__].questionDesc}">
                                 </div>
                             </div>
 
@@ -63,26 +64,58 @@
                             <div class="form-group row">
                                 <label for="questionDesc" class="col-sm-2 col-form-label">ドキュメントタイプ</label>
                                 <div class="col-sm-10">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="submit" class="btn"
+                                                th:classappend="${questionForm.docType.toString() == 'singleQ'} ? 'btn-primary' : 'btn-secondary'"
+                                                th:field="*{questions[__${status.index}__].docType}" th:value="'singleQ'">
                                             単一選択回答
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                        <label class="form-check-label" for="exampleRadios2">
+                                        </button>
+                                        <button type="submit" class="btn"
+                                                th:classappend="${questionForm.docType.toString() == 'multiQ'} ? 'btn-primary' : 'btn-secondary'"
+                                                th:field="*{questions[__${status.index}__].docType}" th:value="'multiQ'">
                                             複数選択回答
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-                                        <label class="form-check-label" for="exampleRadios3">
+                                        </button>
+                                        <button type="submit" class="btn"
+                                                th:classappend="${questionForm.docType.toString() == 'commentQ'} ? 'btn-primary' : 'btn-secondary'"
+                                                th:field="*{questions[__${status.index}__].docType}" th:value="'commentQ'">
                                             コメント回答
-                                        </label>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+
+                            <!--<div class="form-group row">-->
+                                <!--<label for="questionDesc" class="col-sm-2 col-form-label">ドキュメントタイプ</label>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<div class="form-check">-->
+                                        <!--<input class="form-check-input" type="radio"-->
+                                               <!--th:field="*{questions[__${status.index}__].docType}"-->
+                                               <!--th:value="'singleQ'"-->
+                                               <!--th:id="'exampleRadios1' + ${status.index}">-->
+                                        <!--<label class="form-check-label" th:for="'exampleRadios1' + ${status.index}">-->
+                                            <!--単一選択回答-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="form-check">-->
+                                        <!--<input class="form-check-input" type="radio"-->
+                                               <!--th:field="*{questions[__${status.index}__].docType}"-->
+                                               <!--th:value="'multiQ'"-->
+                                               <!--th:id="'exampleRadios2' + ${status.index}">-->
+                                        <!--<label class="form-check-label" th:for="'exampleRadios2' + ${status.index}">-->
+                                            <!--複数選択回答-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="form-check">-->
+                                        <!--<input class="form-check-input" type="radio"-->
+                                               <!--th:field="*{questions[__${status.index}__].docType}"-->
+                                               <!--th:value="'commentQ'"-->
+                                               <!--th:id="'exampleRadios3' + ${status.index}">-->
+                                        <!--<label class="form-check-label" th:for="'exampleRadios3' + ${status.index}">-->
+                                            <!--コメント回答-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
 
                             <!-- 選択事項 -->
                             <div class="form-group row">

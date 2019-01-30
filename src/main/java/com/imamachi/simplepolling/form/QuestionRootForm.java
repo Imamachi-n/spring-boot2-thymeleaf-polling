@@ -4,12 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 public class QuestionRootForm {
 
+    private String title;
+
     @Valid
-    private Collection<QuestionForm> questions;
+    private List<QuestionForm> questions;
 }

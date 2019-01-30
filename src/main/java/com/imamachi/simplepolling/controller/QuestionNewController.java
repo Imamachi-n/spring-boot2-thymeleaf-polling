@@ -24,17 +24,22 @@ public class QuestionNewController {
         questionForms.add(new QuestionForm(Question.DocType.singleQ, true));
         questionForms.add(new QuestionForm(Question.DocType.multiQ, true));
         questionForms.add(new QuestionForm(Question.DocType.commentQ, false));
+        QuestionForm teste = questionForms.get(0);
         questionRootForm.setQuestions(questionForms);
 
         model.addAttribute("questionRootForm", questionRootForm);
         return "/create/questionNew";
     }
 
+//    @RequestParam(name = "submit") String submit,
     @PostMapping("/questionNew")
-    public String postQuestion(@RequestParam(name = "submit") String submit,
-                               @Validated @ModelAttribute QuestionRootForm questionRootForm,
+    public String postQuestion(@Validated @ModelAttribute QuestionRootForm questionRootForm,
                                BindingResult result,
                                Model model){
+//        System.out.println(submit);
+//        String docType = submit.split("_")[0];
+//        String index = submit.split("_")[1];
+        model.addAttribute("questionRootForm", questionRootForm);
         return "/create/questionNew";
     }
 }
