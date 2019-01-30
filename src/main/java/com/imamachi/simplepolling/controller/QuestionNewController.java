@@ -55,6 +55,7 @@ public class QuestionNewController {
 //    @RequestParam(name = "submit") String submit,
     @PostMapping("/questionNew")
     public String postQuestion(@RequestParam(name = "submit") String submit,
+                               @RequestParam(name = "addDocType") String addDocType,
                                @Validated @ModelAttribute QuestionRootForm questionRootForm,
                                BindingResult result,
                                Model model){
@@ -80,12 +81,27 @@ public class QuestionNewController {
                 if(action.equals("add")){
                     List<QuestionForm> questions = questionRootForm.getQuestions();
                     ArrayList<QuestionDetailForm> questionDetailForms = new ArrayList<>();
-                    questionDetailForms.add(new QuestionDetailForm());
-                    questionDetailForms.add(new QuestionDetailForm());
-                    questionDetailForms.add(new QuestionDetailForm());
-                    QuestionForm questionForm = new QuestionForm(Question.DocType.singleQ, true);
-                    questionForm.setQuestionDetails(questionDetailForms);
-                    questions.add(questionForm);
+                    if(addDocType.equals("singleQ")) {
+                        QuestionForm questionForm = new QuestionForm(Question.DocType.singleQ, true);
+                        questionDetailForms.add(new QuestionDetailForm());
+                        questionDetailForms.add(new QuestionDetailForm());
+                        questionDetailForms.add(new QuestionDetailForm());
+                        questionForm.setQuestionDetails(questionDetailForms);
+                        questions.add(questionForm);
+                    }else if(addDocType.equals("multiQ")){
+                        QuestionForm questionForm = new QuestionForm(Question.DocType.multiQ, true);
+                        questionDetailForms.add(new QuestionDetailForm());
+                        questionDetailForms.add(new QuestionDetailForm());
+                        questionDetailForms.add(new QuestionDetailForm());
+                        questionForm.setQuestionDetails(questionDetailForms);
+                        questions.add(questionForm);
+                    }else if(addDocType.equals("commentQ")){
+                        QuestionForm questionForm = new QuestionForm(Question.DocType.commentQ, true);
+                        questionDetailForms.add(new QuestionDetailForm());
+                        questionForm.setQuestionDetails(questionDetailForms);
+                        questions.add(questionForm);
+                    }
+
                     questionRootForm.setQuestions(questions);
                 }
             }
