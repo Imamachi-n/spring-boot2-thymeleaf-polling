@@ -105,6 +105,10 @@ public class QuestionNewController {
                     }
 
                     questionRootForm.setQuestions(questions);
+                }else if(action.equals("delete")) {
+                    List<QuestionForm> questionFroms = questionRootForm.getQuestions();
+                    questionFroms.remove(index);
+                    questionRootForm.setQuestions(questionFroms);
                 }
             }
 
