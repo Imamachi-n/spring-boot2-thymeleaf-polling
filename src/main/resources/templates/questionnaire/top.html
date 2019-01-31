@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>アンケート作成システム - トップページ</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>
+    <link href="//css/base.css" th:href="@{/css/base.css}" rel="stylesheet" />
+</head>
+<body>
+
+<!-- main container -->
+<div class="container"><br/>
+    <div class="row justify-content-center">
+        <h1 class="text-muted text-center">
+            <i class="fab fa-quora fa-4x"></i>
+            アンケートフォーム
+        </h1>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="row col-sm-6 mx-auto">
+        <form method="post" action="/questionnaire/form" th:action="@{/questionnaire/form}">
+            <div class="header clearfix">
+                <h3 class="text-muted text-center" th:text="${title}"></h3>
+            </div>
+
+            <hr/>
+
+            <!-- status -->
+            <!--<div class="alert alert-danger" th:if="${error}" role="alert">-->
+                <!--ユーザ名・パスワードが間違っています。-->
+            <!--</div>-->
+            <!-- end of status -->
+
+            <div class="form-group row">
+                <label for="username">社員番号（OA番号）
+                    <i class="fas fa-question-circle" data-placement="right"
+                       data-toggle="tooltip" data-original-title="あなたのOA番号を入力してください。"></i>
+                </label>
+                <input class="form-control" type="text"
+                       id="username" placeholder="例）123456" autofocus="autofocus">
+            </div>
+
+            <div class="form-group row">
+                <button type="submit" class="btn btn-primary float-right btn-block">
+                    アンケートを開始する
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- end of main container -->
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:href="@{/webjars/font-awesome/js/all.js}"></script>
+<script>
+    $('i').tooltip();
+</script>
+</body>
+</html>

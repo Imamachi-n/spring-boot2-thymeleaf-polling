@@ -1,8 +1,10 @@
 package com.imamachi.simplepolling;
 
+import com.imamachi.simplepolling.model.CurrentQuestionnaire;
 import com.imamachi.simplepolling.model.Question;
 import com.imamachi.simplepolling.model.QuestionDetail;
 import com.imamachi.simplepolling.model.Questionnaire;
+import com.imamachi.simplepolling.repository.CurrentQuestionnaireRepository;
 import com.imamachi.simplepolling.repository.QuestionRepository;
 import com.imamachi.simplepolling.repository.QuestionnaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import java.util.Arrays;
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     // 登録データ
-    private final static String QUESTIONNAIRE_TITLE = "アンケート１";
+    private final static String QUESTIONNAIRE_TITLE = "2018年度　有給休暇取得と時間外勤務に関するアンケート";
     private final static String QUESTION_DETAIL_1 = "アンケート内容１";
     private final static String QUESTION_DETAIL_2 = "アンケート内容２";
     private final static String QUESTION_DETAIL_3 = "アンケート内容３";
@@ -30,12 +32,15 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private boolean alreadySetup = false;
     private QuestionnaireRepository questionnaireRepository;
     private QuestionRepository questionRepository;
+    private CurrentQuestionnaireRepository currentQuestionnaireRepository;
 
     @Autowired
     public InitialDataLoader(QuestionnaireRepository questionnaireRepository,
-                             QuestionRepository questionRepository) {
+                             QuestionRepository questionRepository,
+                             CurrentQuestionnaireRepository currentQuestionnaireRepository) {
         this.questionnaireRepository = questionnaireRepository;
         this.questionRepository = questionRepository;
+        this.currentQuestionnaireRepository = currentQuestionnaireRepository;
     }
 
     @Override
@@ -48,6 +53,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         // アンケートタイトルをDBに格納
         Questionnaire questionnaire = new Questionnaire(QUESTIONNAIRE_TITLE);
         questionnaireRepository.save(questionnaire);
+
+        // 現在のアンケートを保存
+        CurrentQuestionnaire currentQuestionnaire = new CurrentQuestionnaire(QUESTIONNAIRE_TITLE);
+        currentQuestionnaireRepository.save(currentQuestionnaire);
 
         // アンケート内容をDBに格納
         QuestionDetail questionDetail1 = new QuestionDetail(QUESTION_DETAIL_1);

@@ -2,10 +2,7 @@ package com.imamachi.simplepolling.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "current_questionnaire")
@@ -13,8 +10,15 @@ import javax.persistence.Table;
 public class CurrentQuestionnaire {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Integer questionnaireId;
 
-    private String comment;
+    private String title;
+
+    public CurrentQuestionnaire() {}
+
+    public CurrentQuestionnaire(String title){
+        this.title = title;
+    }
 }
