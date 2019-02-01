@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -55,7 +56,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         questionnaireRepository.save(questionnaire);
 
         // 現在のアンケートを保存
-        CurrentQuestionnaire currentQuestionnaire = new CurrentQuestionnaire(QUESTIONNAIRE_TITLE);
+        List<Questionnaire> questionnaire1 = questionnaireRepository.findAll();
+        CurrentQuestionnaire currentQuestionnaire = new CurrentQuestionnaire(questionnaire1.get(0));
         currentQuestionnaireRepository.save(currentQuestionnaire);
 
         // アンケート内容をDBに格納

@@ -12,13 +12,17 @@ public class CurrentQuestionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
-    private Integer questionnaireId;
+    private Integer id;
 
-    private String title;
+    // アンケート情報
+    @OneToOne
+    @JoinColumn(name = "questionnaireId")
+    private Questionnaire questionnaire;
 
     public CurrentQuestionnaire() {}
 
-    public CurrentQuestionnaire(String title){
-        this.title = title;
+    public CurrentQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
     }
+
 }

@@ -19,9 +19,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
         this.currentQuestionnaireRepository = currentQuestionnaireRepository;
     }
 
+    // アンケートのタイトルを取得
     @Override
     public String getCurrentQuestionnaire(){
         List<CurrentQuestionnaire> result = currentQuestionnaireRepository.findAll();
-        return result.get(result.size() - 1).getTitle();
+        return result.get(0).getQuestionnaire().getTitle();
     }
 }

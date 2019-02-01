@@ -5,10 +5,11 @@
     <title>アンケート作成システム - トップページ</title>
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
     <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>
+    <!--<link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>-->
     <link href="//css/base.css" th:href="@{/css/base.css}" rel="stylesheet" />
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="../../static/js/google-charts-loader.js"
+            th:src="@{/js/google-charts-loader.js}"></script>
     <script type="text/javascript">
         google.charts.load('current', {packages: ['corechart']});
         google.charts.setOnLoadCallback(drawChart);

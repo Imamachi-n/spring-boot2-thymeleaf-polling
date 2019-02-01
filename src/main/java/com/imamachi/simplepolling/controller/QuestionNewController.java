@@ -52,7 +52,6 @@ public class QuestionNewController {
         return "/create/questionNew";
     }
 
-//    @RequestParam(name = "submit") String submit,
     @PostMapping("/questionNew")
     public String postQuestion(@RequestParam(name = "submit") String submit,
                                @RequestParam(name = "addDocType") String addDocType,

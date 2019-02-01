@@ -2,9 +2,9 @@ package com.imamachi.simplepolling.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 /*
 アンケートタイトルEntityクラス
@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Table(name = "questionnaire")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Questionnaire {
 
     @Id

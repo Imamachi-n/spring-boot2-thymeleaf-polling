@@ -1,4 +1,14 @@
+@font-face {
+    font-family: KosugiMaru;
+    src:url(../font/KosugiMaru-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: OpenSans;
+    src:url(../font/OpenSans-Regular.ttf) format("truetype");
+}
+
 body {
-    font-family: 'Open Sans', 'Kosugi Maru', 'HG丸ｺﾞｼｯｸM-PRO';
+    font-family: 'OpenSans', 'KosugiMaru', 'HG丸ｺﾞｼｯｸM-PRO';
     font-weight: 400;
 }
