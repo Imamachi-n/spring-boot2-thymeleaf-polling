@@ -21,8 +21,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
 
     // アンケートのタイトルを取得
     @Override
-    public String getCurrentQuestionnaire(){
-        List<CurrentQuestionnaire> result = currentQuestionnaireRepository.findAll();
-        return result.get(0).getQuestionnaire().getTitle();
+    public CurrentQuestionnaire getCurrentQuestionnaire(){
+        return currentQuestionnaireRepository.findAll().get(0);
     }
 }

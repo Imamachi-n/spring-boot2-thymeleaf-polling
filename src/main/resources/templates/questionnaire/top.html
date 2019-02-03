@@ -26,6 +26,7 @@
         <form method="post" action="/questionnaire/form" th:action="@{/questionnaire/form}">
             <div class="header clearfix">
                 <h3 class="text-muted text-center" th:text="${title}"></h3>
+                <!-- 渡すパラメータ -->
                 <input type="hidden" name="title" th:value="${title}">
             </div>
 

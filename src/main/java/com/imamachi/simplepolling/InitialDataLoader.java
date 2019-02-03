@@ -27,8 +27,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private final static String QUESTION_DETAIL_4 = "いまいち";
     private final static String QUESTION_DETAIL_5 = "ふつう";
     private final static String QUESTION_DETAIL_6 = "よかった";
-    private final static String QUESTION_DESC = "質問内容１";
-    private final static String QUESTION_DESC2 = "質問内容2";
+    private final static String QUESTION_DESC = "平均的に考えて、当社のカスタマーサービス担当者はどれほどお客様のお役に立っていますか？";
+    private final static String QUESTION_DESC2 = "平均的にみて、当社のカスタマーサービス担当者との会話において、不満に感じられる程度を教えてください。";
 
     private boolean alreadySetup = false;
     private QuestionnaireRepository questionnaireRepository;
@@ -71,15 +71,15 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         // アンケート情報をDBに格納
         Question question = new Question(Question.DocType.multiQ, true, QUESTION_DESC,
                 Arrays.asList(questionDetail1, questionDetail2, questionDetail3), questionnaire);
-        Question question2 = new Question(Question.DocType.singleQ, true, QUESTION_DESC,
+        Question question2 = new Question(Question.DocType.singleQ, true, QUESTION_DESC2,
                 Arrays.asList(questionDetail4, questionDetail5, questionDetail6), questionnaire);
 
         questionDetail1.setQuestion((question));
         questionDetail2.setQuestion((question));
         questionDetail3.setQuestion((question));
-        questionDetail4.setQuestion((question));
-        questionDetail5.setQuestion((question));
-        questionDetail6.setQuestion((question));
+        questionDetail4.setQuestion((question2));
+        questionDetail5.setQuestion((question2));
+        questionDetail6.setQuestion((question2));
 
         // DBへ登録
         questionRepository.save(question);
