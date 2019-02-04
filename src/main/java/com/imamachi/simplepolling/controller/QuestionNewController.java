@@ -4,6 +4,7 @@ import com.imamachi.simplepolling.form.QuestionDetailForm;
 import com.imamachi.simplepolling.form.QuestionForm;
 import com.imamachi.simplepolling.form.QuestionRootForm;
 import com.imamachi.simplepolling.model.Question;
+import com.imamachi.simplepolling.service.QuestionService;
 import com.imamachi.simplepolling.service.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,13 @@ import java.util.List;
 public class QuestionNewController {
 
     private QuestionnaireService questionnaireService;
+    private QuestionService questionService;
 
     @Autowired
-    public QuestionNewController(QuestionnaireService questionnaireService){
+    public QuestionNewController(QuestionnaireService questionnaireService,
+                                 QuestionService questionService){
         this.questionnaireService = questionnaireService;
+        this.questionService = questionService;
     }
 
     // アンケート画面への遷移（画面の初期処理）
@@ -36,6 +40,11 @@ public class QuestionNewController {
         return "/create/questionNew";
     }
 
+    @PostMapping
+    public String postConfirm(Model model){
+        return "/create/confirm";
+    }
+
     // アンケート内容の増減・アンケートの登録
     @PostMapping("/questionNew")
     public String postQuestion(@RequestParam(name = "submit") String submit,
@@ -45,7 +54,8 @@ public class QuestionNewController {
                                Model model){
         // 登録処理
         if(submit.equals("submit")) {
-            //
+            model.addAttribute("questionRootForm", questionRootForm);
+            return "/create/confirm";
 
         // 質問の追加・削除、選択項目の追加・削除
         }else{
@@ -58,51 +68,33 @@ public class QuestionNewController {
             if(type.equals("content")) {
                 // 選択項目の追加
                 if(action.equals("add")) {
-                    List<QuestionDetailForm> questionDetails = questionRootForm.getQuestions().get(index).getQuestionDetails();
-                    questionDetails.add(new QuestionDetailForm());
-                    questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
+                    questionService.addQuestionItem(questionRootForm, index);
+
                 // 選択項目の削除
                 }else if(action.equals("delete")){
-                    List<QuestionDetailForm> questionDetails = questionRootForm.getQuestions().get(index).getQuestionDetails();
-                    if(questionDetails.size() > 1){
-                        questionDetails.remove(questionDetails.size() - 1);
-                        questionRootForm.getQuestions().get(index).setQuestionDetails(questionDetails);
-                    }
+                    questionService.deleteQuestionItem(questionRootForm, index);
                 }
+
+            // 質問の処理
             }else if (type.equals("question")){
                 // 質問を追加
                 if(action.equals("add")){
-                    List<QuestionForm> questions = questionRootForm.getQuestions();
-                    index = questions.size();
-                    ArrayList<QuestionDetailForm> questionDetailForms = new ArrayList<>();
-                    if(addDocType.equals("singleQ")) {
-                        QuestionForm questionForm = new QuestionForm(Question.DocType.singleQ, true);
-                        questionDetailForms.add(new QuestionDetailForm());
-                        questionDetailForms.add(new QuestionDetailForm());
-                        questionDetailForms.add(new QuestionDetailForm());
-                        questionForm.setQuestionDetails(questionDetailForms);
-                        questions.add(questionForm);
-                    }else if(addDocType.equals("multiQ")){
-                        QuestionForm questionForm = new QuestionForm(Question.DocType.multiQ, true);
-                        questionDetailForms.add(new QuestionDetailForm());
-                        questionForm.setQuestionDetails(questionDetailForms);
-                        questions.add(questionForm);
-                    }else if(addDocType.equals("commentQ")){
-                        QuestionForm questionForm = new QuestionForm(Question.DocType.commentQ, true);
-                        questionDetailForms.add(new QuestionDetailForm());
-                        questionForm.setQuestionDetails(questionDetailForms);
-                        questions.add(questionForm);
-                    }
+                    index = questionRootForm.getQuestions().size();
 
-                    questionRootForm.setQuestions(questions);
+                    if(addDocType.equals("singleQ")) {
+                        questionService.addSingleQuestion(questionRootForm);
+
+                    }else if(addDocType.equals("multiQ")){
+                        questionService.addMultiQuestion(questionRootForm);
+
+                    }else if(addDocType.equals("commentQ")){
+                        questionService.addCommentQuestion(questionRootForm);
+                    }
 
                 // 質問の削除
                 }else if(action.equals("delete")) {
-                    List<QuestionForm> questionFroms = questionRootForm.getQuestions();
-                    if(questionFroms.size() > 1) {
-                        questionFroms.remove(index);
-                        questionRootForm.setQuestions(questionFroms);
-                    }
+                    questionService.deleteQuestion(questionRootForm, index);
+
                 }
             }
 
@@ -110,8 +102,5 @@ public class QuestionNewController {
             model.addAttribute("questionRootForm", questionRootForm);
             return "/create/questionNew";
         }
-
-        model.addAttribute("questionRootForm", questionRootForm);
-        return "/create/questionNew";
     }
 }
