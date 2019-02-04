@@ -34,4 +34,8 @@ public class QuestionServiceImpl implements QuestionService {
         // アンケート内容を検索
         return questionRepository.findByQuestionnaireOrderByQuestionId(questionnaire);
     }
+
+    // 選択項目の追加
+//    @Override
+//    public addItem
 }
