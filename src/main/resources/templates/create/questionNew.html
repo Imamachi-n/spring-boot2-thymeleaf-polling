@@ -26,6 +26,15 @@
         <!-- CSRFトークンを埋め込むのに必要 th:action="@{/item/confirm}" -->
         <!-- CSRFトークンがないと、Request method 'POST' not supportedとエラーになる -->
         <form name="form1" method="post" action="/create/questionNew" th:action="@{/create/questionNew}" th:object="${questionRootForm}">
+
+            <!-- エラーメッセージ -->
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors()}">
+                <div th:each="error : ${#fields.detailedErrors()}">
+                    <span th:text="'・' + ${error.message}">A simple danger alert—check it out!</span>
+                </div>
+            </div>
+
+            <!-- 入力フォーム本文 -->
             <div class="form-group row">
                 <label for="questionTitle" class="col-sm-2 col-form-label">アンケートタイトル</label>
                 <div class="col-sm-10">

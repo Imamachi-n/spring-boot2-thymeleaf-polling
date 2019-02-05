@@ -1,10 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>アンケート作成システム - アンケート作成確認画面</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
+    <!--<link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>-->
+    <link href="//css/base.css" th:href="@{/css/base.css}" rel="stylesheet" />
 </head>
-<body>
+<body style="padding-top: 70px">
 
+<!-- menu -->
+<div th:replace="/fragments/menu :: menu(target = 'create')"></div>
+<!-- end of menu -->
+
+<!-- main container -->
+<div class="container"><br/>
+    <div class="header clearfix">
+        <h3 class="text-muted">
+            <i class="far fa-file-alt"></i> アンケート作成 - 確認
+        </h3>
+    </div>
+
+    <div class="form-group row">
+        <!--<i class="fab fa-quora text-muted fa-2x"></i>-->
+        <h3 class="text-muted" th:text="'アンケートタイトル: ' + ${questionRootForm.title}"></h3>
+    </div>
+    <hr/>
+
+    <form method="post" action="/questionnaire/form" th:action="@{/questionnaire/form}">
+        <div th:each="question, status : ${questionRootForm.questions}">
+            <div class="form-inline">
+                <h5 th:text="'Q' + ${status.index + 1} + '. ' + ${question.questionDesc}"></h5>
+                <span class="badge badge-pill badge-danger">必須</span>
+            </div>
+            <!-- start of content -->
+            <!-- 単一選択回答内容 -->
+            <div class="form-group row" th:if="${question.docType.toString() == 'singleQ'}">
+                <div class="col-sm-10">
+                    <div class="form-check" th:each="questionDetail, detailStatus : ${question.questionDetails}">
+                        <input class="form-check-input" type="radio"
+                               th:name="'singleQ:' + ${status.index}"
+                               th:id="'singleQ:' + ${status.index} + ':' + ${detailStatus.index}"
+                               th:value="option">
+                        <label class="form-check-label" th:for="'singleQ:' + ${status.index} + ':' + ${detailStatus.index}"
+                               th:text="${questionDetail.description}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 複数選択回答内容 -->
+            <div class="form-group row" th:if="${question.docType.toString() == 'multiQ'}">
+                <div class="col-sm-10">
+                    <div class="form-check" th:each="questionDetail, detailStatus : ${question.questionDetails}">
+                        <input class="form-check-input" type="checkbox"
+                               th:name="'multiQ:' + ${status.index} + ':' + ${detailStatus.index}"
+                               th:id="'multiQ:' + ${status.index} + ':' + ${detailStatus.index}"
+                               th:value="option">
+                        <label class="form-check-label" th:for="'multiQ:' + ${status.index} + ':' + ${detailStatus.index}"
+                               th:text="${questionDetail.description}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- コメント回答内容 -->
+            <div class="form-group row" th:if="${question.docType.toString() == 'commentQ'}">
+                <div class="col-sm-10">
+                        <textarea class="form-control" th:id="'commentQ:' + ${status.index}"
+                                  placeholder="自由にコメントを記載してください。"></textarea>
+                </div>
+            </div>
+
+            <hr/>
+            <!-- end of content -->
+        </div>
+
+        <button type="submit" th:name="submit" th:value="${questionRootForm}" class="btn btn-primary">アンケートを送信する</button>
+    </form>
+
+</div>
+<!-- end of main container -->
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:href="@{/webjars/font-awesome/js/all.js}"></script>
 </body>
 </html>

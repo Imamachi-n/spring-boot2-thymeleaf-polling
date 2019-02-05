@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -18,6 +20,8 @@ public class QuestionForm {
     private boolean requirement;
 
     // アンケートの質問内容
+    @NotNull
+    @Min(1)
     private String questionDesc;
 
     // 説明
