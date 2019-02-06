@@ -28,15 +28,19 @@
     </div>
     <hr/>
 
-    <form method="post" action="/questionnaire/form" th:action="@{/questionnaire/form}">
+    <form method="post" action="/create/confirm" th:action="@{/create/confirm}" th:object="${questionRootForm}">
+        <input type="hidden" th:field="*{title}"/>
+
         <div th:each="question, status : ${questionRootForm.questions}">
             <div class="form-inline">
                 <h5 th:text="'Q' + ${status.index + 1} + '. ' + ${question.questionDesc}"></h5>
                 <span class="badge badge-pill badge-danger">必須</span>
+                <input type="hidden" th:field="*{questions[__${status.index}__].questionDesc}"/>
             </div>
             <!-- start of content -->
             <!-- 単一選択回答内容 -->
             <div class="form-group row" th:if="${question.docType.toString() == 'singleQ'}">
+                <input type="hidden" th:field="*{questions[__${status.index}__].docType}"/>
                 <div class="col-sm-10">
                     <div class="form-check" th:each="questionDetail, detailStatus : ${question.questionDetails}">
                         <input class="form-check-input" type="radio"
@@ -46,12 +50,14 @@
                         <label class="form-check-label" th:for="'singleQ:' + ${status.index} + ':' + ${detailStatus.index}"
                                th:text="${questionDetail.description}">
                         </label>
+                        <input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[__${detailStatus.index}__].description}"/>
                     </div>
                 </div>
             </div>
 
             <!-- 複数選択回答内容 -->
             <div class="form-group row" th:if="${question.docType.toString() == 'multiQ'}">
+                <input type="hidden" th:field="*{questions[__${status.index}__].docType}"/>
                 <div class="col-sm-10">
                     <div class="form-check" th:each="questionDetail, detailStatus : ${question.questionDetails}">
                         <input class="form-check-input" type="checkbox"
@@ -61,15 +67,18 @@
                         <label class="form-check-label" th:for="'multiQ:' + ${status.index} + ':' + ${detailStatus.index}"
                                th:text="${questionDetail.description}">
                         </label>
+                        <input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[__${detailStatus.index}__].description}"/>
                     </div>
                 </div>
             </div>
 
             <!-- コメント回答内容 -->
             <div class="form-group row" th:if="${question.docType.toString() == 'commentQ'}">
+                <input type="hidden" th:field="*{questions[__${status.index}__].docType}"/>
                 <div class="col-sm-10">
                         <textarea class="form-control" th:id="'commentQ:' + ${status.index}"
                                   placeholder="自由にコメントを記載してください。"></textarea>
+                    <!--<input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[0].description}"/>-->
                 </div>
             </div>
 
@@ -77,7 +86,7 @@
             <!-- end of content -->
         </div>
 
-        <button type="submit" th:name="submit" th:value="${questionRootForm}" class="btn btn-primary">アンケートを送信する</button>
+        <button type="submit" class="btn btn-primary">アンケートを送信する</button>
     </form>
 
 </div>

@@ -28,9 +28,12 @@
         <form name="form1" method="post" action="/create/questionNew" th:action="@{/create/questionNew}" th:object="${questionRootForm}">
 
             <!-- エラーメッセージ -->
-            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors()}">
-                <div th:each="error : ${#fields.detailedErrors()}">
-                    <span th:text="'・' + ${error.message}">A simple danger alert—check it out!</span>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${#fields.hasErrors()}">
+                <div th:if="${#fields.hasErrors()}">
+                    <span th:text="'入力していないフォームを埋めてください。'"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
 
@@ -39,7 +42,10 @@
                 <label for="questionTitle" class="col-sm-2 col-form-label">アンケートタイトル</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="questionTitle" placeholder="質問内容を記載してください。"
-                           th:field="*{title}">
+                           th:field="*{title}" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+                    <div class="invalid-feedback">
+                        タイトルを入力してください。
+                    </div>
                 </div>
             </div>
 
@@ -93,7 +99,11 @@
                                 <label for="questionDesc" class="col-sm-2 col-form-label">質問事項</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="questionDesc" placeholder="質問内容を記載してください。"
-                                           th:field="*{questions[__${status.index}__].questionDesc}">
+                                           th:field="*{questions[__${status.index}__].questionDesc}"
+                                           th:classappend="${#fields.hasErrors('*{questions[__${status.index}__].questionDesc}')} ? 'is-invalid'">
+                                    <div class="invalid-feedback">
+                                        質問事項を入力してください。
+                                    </div>
                                 </div>
                             </div>
 
@@ -148,7 +158,11 @@
                                         </div>
                                         <input type="text" class="form-control" aria-label="Text input with checkbox"
                                                placeholder="回答内容を記載してください。"
-                                               th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}">
+                                               th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}"
+                                               th:classappend="${#fields.hasErrors('*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}')} ? 'is-invalid'">
+                                        <div class="invalid-feedback">
+                                            質問事項を入力してください。
+                                        </div>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary"
@@ -175,7 +189,11 @@
                                         </div>
                                         <input type="text" class="form-control" aria-label="Text input with checkbox"
                                                placeholder="回答内容を記載してください。"
-                                               th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}">
+                                               th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}"
+                                               th:classappend="${#fields.hasErrors('*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}')} ? 'is-invalid'">
+                                        <div class="invalid-feedback">
+                                            質問事項を入力してください。
+                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary"
                                             th:name="submit" th:value="'content:add:' + ${status.index}">
@@ -194,6 +212,7 @@
                                 <div class="col-sm-10">
                                     <div class="mb-3">
                                         <textarea class="form-control" id="validationTextarea" placeholder="自由にコメントを記載してください。" disabled></textarea>
+                                        <!--<input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[0].description}">-->
                                     </div>
                                 </div>
                             </div>

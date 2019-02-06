@@ -8,4 +8,6 @@ public interface QuestionnaireService {
     CurrentQuestionnaire getCurrentQuestionnaire();
 
     QuestionRootForm getQuestionnaireTemplate();
+
+    Boolean registerQuestionnaire(QuestionRootForm questionRootForm);
 }

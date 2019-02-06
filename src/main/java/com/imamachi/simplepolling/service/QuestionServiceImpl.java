@@ -101,7 +101,7 @@ public class QuestionServiceImpl implements QuestionService {
         ArrayList<QuestionDetailForm> questionDetailForms = new ArrayList<>();
 
         QuestionForm questionForm = new QuestionForm(Question.DocType.commentQ, false);
-        questionDetailForms.add(new QuestionDetailForm());
+        questionDetailForms.add(new QuestionDetailForm("dummy"));
         questionForm.setQuestionDetails(questionDetailForms);
         questions.add(questionForm);
 

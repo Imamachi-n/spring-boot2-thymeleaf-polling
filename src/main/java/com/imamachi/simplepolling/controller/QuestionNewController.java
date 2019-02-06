@@ -4,6 +4,7 @@ import com.imamachi.simplepolling.form.QuestionDetailForm;
 import com.imamachi.simplepolling.form.QuestionForm;
 import com.imamachi.simplepolling.form.QuestionRootForm;
 import com.imamachi.simplepolling.model.Question;
+import com.imamachi.simplepolling.model.Questionnaire;
 import com.imamachi.simplepolling.service.QuestionService;
 import com.imamachi.simplepolling.service.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,13 @@ public class QuestionNewController {
         return "/create/questionNew";
     }
 
-    @PostMapping
-    public String postConfirm(Model model){
-        return "/create/confirm";
+    // 確認画面から登録処理
+    @PostMapping("/confirm")
+    public String postConfirm(@Validated @ModelAttribute QuestionRootForm questionRootForm,
+                              Model model){
+
+        this.questionnaireService.registerQuestionnaire(questionRootForm);
+        return "redirect:/create/questionNew";
     }
 
     // アンケート内容の増減・アンケートの登録
