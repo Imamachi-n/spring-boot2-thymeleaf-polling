@@ -39,6 +39,7 @@ public class QuestionNewController {
         model.addAttribute("questionRootForm", questionnaireService.getQuestionnaireTemplate());
         // アコーディオンの初期設定
         model.addAttribute("accordionExpandIndex", 0);
+        model.addAttribute("isError", false);
         return "/create/questionNew";
     }
 
@@ -66,6 +67,7 @@ public class QuestionNewController {
 //                attributes.addFlashAttribute("questionRootForm", questionRootForm);
                 model.addAttribute("accordionExpandIndex", 0);
                 model.addAttribute("questionRootForm", questionRootForm);
+                model.addAttribute("isError", true);
                 return "/create/questionNew";
             }
 
@@ -115,6 +117,7 @@ public class QuestionNewController {
 
         model.addAttribute("accordionExpandIndex", index);
         model.addAttribute("questionRootForm", questionRootForm);
+        model.addAttribute("isError", false);
         return "/create/questionNew";
     }
 }
