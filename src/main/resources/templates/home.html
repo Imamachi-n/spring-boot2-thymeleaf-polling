@@ -7,8 +7,9 @@
     <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
     <!--<link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>-->
     <link href="//css/base.css" th:href="@{/css/base.css}" rel="stylesheet" />
+    <link href="//css/top.css" th:href="@{/css/top.css}" rel="stylesheet" />
 </head>
-<body style="padding-top: 70px">
+<body style="padding-top: 65px">
 
 <!-- menu -->
 <div th:replace="/fragments/menu :: menu(target = 'home')"></div>
@@ -16,15 +17,48 @@
 
 <!-- main container -->
 <div class="container"><br/>
-    <!-- jumbotron -->
-    <div class="jumbotron">
-        <h1 class="display-4">アンケートを作成しよう</h1>
-        <p class="lead">アンケート作成システムを使って、アンケートフォームを作成・管理しましょう。</p>
-        <hr class="my-4">
-        <p>まずは新しいアンケートフォームを作成してみよう。</p>
-        <a class="btn btn-primary btn-lg" href="/create/questionNew" role="button">アンケート作成へ→</a>
-    </div>
-    <!-- end of jumbotron -->
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">アンケートを作成しよう</h1>
+                <br/>
+                <p>まずは新しいアンケートフォームを作成してみよう。</p>
+                <a th:href="@{/create/questionNew}" class="btn btn-success btn-xl page-scroll">アンケート作成へ</a>
+            </div>
+        </div>
+    </header>
+
+    <br/>
+    <hr>
+    <br/>
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1><i class="far fa-file-alt"></i> 現在実施中のアンケート</h1>
+            </div>
+        </div>
+    </header>
+
+    <br/>
+
+    <form name="form1" method="post" action="/home" th:action="@{/home}">
+        <div class="form-group row">
+            <label for="questionTitle" class="col-sm-2 col-form-label">
+                現在のアンケート
+            </label>
+            <div class="col-sm-8">
+                <select class="form-control" name="addDocType" id="questionTitle">
+                    <option value="singleQ">単一選択回答</option>
+                    <option value="multiQ">複数選択回答</option>
+                    <option value="commentQ">コメント回答</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-secondary">変更する</button>
+            </div>
+        </div>
+    </form>
 </div>
 <!-- end of main container -->
 
