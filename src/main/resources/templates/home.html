@@ -35,7 +35,7 @@
     <header>
         <div class="header-content">
             <div class="header-content-inner">
-                <h1><i class="far fa-file-alt"></i> 現在実施中のアンケート</h1>
+                <h2><i class="far fa-file-alt"></i> 現在実施中のアンケート</h2>
             </div>
         </div>
     </header>
@@ -48,10 +48,10 @@
                 現在のアンケート
             </label>
             <div class="col-sm-8">
-                <select class="form-control" name="addDocType" id="questionTitle">
-                    <option value="singleQ">単一選択回答</option>
-                    <option value="multiQ">複数選択回答</option>
-                    <option value="commentQ">コメント回答</option>
+                <select class="form-control" name="questionnaireId" id="questionTitle">
+                        <option th:each="questionnaire, status: ${questionnaires}" th:text="${questionnaire.title}"
+                                th:value="${questionnaire.questionnaireId}"
+                                th:selected="${questionnaire.questionnaireId == currentQuestionnaireId}"></option>
                 </select>
             </div>
             <div class="col-sm-2">
