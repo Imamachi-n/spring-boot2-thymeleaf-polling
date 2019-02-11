@@ -1,12 +1,14 @@
 package com.imamachi.simplepolling.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "result_detail")
 @Data
+@NoArgsConstructor
 public class ResultDetail {
 
     @Id
@@ -27,9 +29,22 @@ public class ResultDetail {
 
     // 回答
     @Column(nullable = false)
+    private int answerId;
+
+    // 回答
+    @Column(nullable = false)
     private String answer;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "resultId", nullable = false)
     private Result result;
+
+    public ResultDetail(int questionnaireNo, Question.DocType docType, String description,
+                        int answerId, String answer){
+        this.questionnaireNo = questionnaireNo;
+        this.docType = docType;
+        this.description = description;
+        this.answerId = answerId;
+        this.answer = answer;
+    }
 }

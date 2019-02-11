@@ -7,6 +7,7 @@ import com.imamachi.simplepolling.service.QuestionService;
 import com.imamachi.simplepolling.service.QuestionnaireService;
 import com.imamachi.simplepolling.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -54,6 +55,8 @@ public class QuestionnaireController {
         model.addAttribute("questionList", questionList);
         model.addAttribute("resultRootForm", new ResultRootForm());
 
+        // エラーメッセージ
+        addAttribute2Error(model, "", "");
         return "/questionnaire/form";
     }
 
@@ -63,17 +66,38 @@ public class QuestionnaireController {
                            Model model){
         // 空欄チェック
         if(resultService.existFormError((resultRootForm))){
-            model.addAttribute("title", resultRootForm.getQuestionnaireTitle());
-            model.addAttribute("username", resultRootForm.getUsername());
-
-            List<Question> questionList = questionService.getQuestionnaireInfo();
-            model.addAttribute("questionList", questionList);
-            model.addAttribute("resultRootForm", resultRootForm);
+            addAttribute2Form(model, resultRootForm);
+            addAttribute2Error(model, "", "回答していない質問があります。");
             return "/questionnaire/form";
         }
 
         // アンケート結果の登録
-        System.out.println(resultRootForm.getQuestionnaireTitle());
+        try {
+            resultService.registerResult(resultRootForm);
+        }catch(DataIntegrityViolationException e){
+            System.out.println(e.getMessage());
+            addAttribute2Form(model, resultRootForm);
+            addAttribute2Error(model, "すでに同じ社員番号（OA番号）で登録があります。", "");
+            return "/questionnaire/form";
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         return "/questionnaire/submitted";
+    }
+
+    // フォーム情報のパラメータ渡し
+    private void addAttribute2Form(Model model, ResultRootForm resultRootForm){
+        model.addAttribute("title", resultRootForm.getQuestionnaireTitle());
+        model.addAttribute("username", resultRootForm.getUsername());
+
+        List<Question> questionList = questionService.getQuestionnaireInfo();
+        model.addAttribute("questionList", questionList);
+        model.addAttribute("resultRootForm", resultRootForm);
+    }
+
+    // エラーメッセージのパラメータ渡し
+    private void addAttribute2Error(Model model, String error, String warning){
+        model.addAttribute("isError",  error);
+        model.addAttribute("isWarning", warning);
     }
 }

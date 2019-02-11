@@ -1,6 +1,7 @@
 package com.imamachi.simplepolling.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "result")
 @Data
+@NoArgsConstructor
 public class Result {
 
     @Id
@@ -26,4 +28,7 @@ public class Result {
     @OrderBy("resultDetailId ASC")
     private List<ResultDetail> resultDetail;
 
+    public Result(Questionnaire questionnaire){
+        this.questionnaire = questionnaire;
+    }
 }

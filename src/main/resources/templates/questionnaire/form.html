@@ -17,6 +17,23 @@
         <h3 class="text-muted" th:text="${title}"></h3>
     </div>
     <hr/>
+    <!-- エラーメッセージ -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${!isError.equals('')}">
+        <div th:if="${!isError.equals('')}">
+            <span th:text="${isError}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${!isWarning.equals('')}">
+        <div th:if="${!isWarning.equals('')}">
+            <span th:text="${isWarning}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
 
     <!--<div class="row">-->
         <form method="post" action="/questionnaire/form" th:action="@{/questionnaire/form}" th:object="${resultRootForm}">
@@ -31,6 +48,13 @@
                     <span class="badge badge-pill badge-danger">必須</span>
                     <input type="hidden" th:name="'resultForms[' + ${status.index} + '].description'" th:value="${question.questionDesc}">
                     <input type="hidden" th:name="'resultForms[' + ${status.index} + '].questionnaireNo'" th:value="${status.index + 1}">
+                </div>
+
+                <!-- エラーメッセージ -->
+                <div class="form-group row mb-0" th:if="${resultRootForm.resultForms != null
+                    && resultRootForm.resultForms[__${status.index}__].isError != null
+                    && resultRootForm.resultForms[__${status.index}__].isError}">
+                    <p class="text-danger mb-1">質問に回答してください。</p>
                 </div>
 
                 <!-- 単一選択回答内容 -->
@@ -84,7 +108,28 @@
                 <hr/>
             </div>
 
-            <button type="submit" class="btn btn-primary">アンケートを送信する</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">アンケートを送信する</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitle">登録してもよろしいですか？</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!--<div class="modal-body">-->
+                            <!--一度回答すると修正できませんので-->
+                        <!--</div>-->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">送信する</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     <!--</div>-->
 </div>

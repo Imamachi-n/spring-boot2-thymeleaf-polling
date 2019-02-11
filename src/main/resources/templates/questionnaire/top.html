@@ -7,13 +7,14 @@
     <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
     <!--<link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>-->
     <link href="//css/base.css" th:href="@{/css/base.css}" rel="stylesheet" />
+    <link href="//css/customerTop.css" th:href="@{/css/customerTop.css}" rel="stylesheet" />
 </head>
 <body>
 
 <!-- main container -->
 <div class="container"><br/>
     <div class="row justify-content-center">
-        <h1 class="text-muted text-center">
+        <h1 class="text-center">
             <i class="fab fa-quora fa-4x"></i>
             アンケートフォーム
         </h1>
@@ -25,7 +26,7 @@
     <div class="row col-sm-6 mx-auto">
         <form method="post" action="/questionnaire/top" th:action="@{/questionnaire/top}">
             <div class="header clearfix">
-                <h3 class="text-muted text-center" th:text="${title}"></h3>
+                <h3 class="text-center" th:text="${title}"></h3>
                 <!-- 渡すパラメータ -->
                 <input type="hidden" name="title" th:value="${title}">
             </div>
