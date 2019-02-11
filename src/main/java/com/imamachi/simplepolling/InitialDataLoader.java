@@ -29,6 +29,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private final static String QUESTION_DETAIL_6 = "よかった";
     private final static String QUESTION_DESC = "平均的に考えて、当社のカスタマーサービス担当者はどれほどお客様のお役に立っていますか？";
     private final static String QUESTION_DESC2 = "平均的にみて、当社のカスタマーサービス担当者との会話において、不満に感じられる程度を教えてください。";
+    private final static String QUESTION_DESC3 = "自由なコメントをご記入ください。";
 
     private boolean alreadySetup = false;
     private QuestionnaireRepository questionnaireRepository;
@@ -67,12 +68,15 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         QuestionDetail questionDetail4 = new QuestionDetail(QUESTION_DETAIL_4);
         QuestionDetail questionDetail5 = new QuestionDetail(QUESTION_DETAIL_5);
         QuestionDetail questionDetail6 = new QuestionDetail(QUESTION_DETAIL_6);
+        QuestionDetail questionDetail7 = new QuestionDetail(QUESTION_DETAIL_1);
 
         // アンケート情報をDBに格納
         Question question = new Question(Question.DocType.multiQ, true, QUESTION_DESC,
                 Arrays.asList(questionDetail1, questionDetail2, questionDetail3), questionnaire);
         Question question2 = new Question(Question.DocType.singleQ, true, QUESTION_DESC2,
                 Arrays.asList(questionDetail4, questionDetail5, questionDetail6), questionnaire);
+        Question question3 = new Question(Question.DocType.commentQ, true, QUESTION_DESC3,
+                Arrays.asList(questionDetail7), questionnaire);
 
         questionDetail1.setQuestion((question));
         questionDetail2.setQuestion((question));
@@ -80,9 +84,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         questionDetail4.setQuestion((question2));
         questionDetail5.setQuestion((question2));
         questionDetail6.setQuestion((question2));
+        questionDetail7.setQuestion((question3));
 
         // DBへ登録
         questionRepository.save(question);
         questionRepository.save(question2);
+        questionRepository.save(question3);
     }
 }

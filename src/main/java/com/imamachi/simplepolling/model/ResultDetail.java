@@ -14,6 +14,13 @@ public class ResultDetail {
     @Column(nullable = false,updatable = false)
     private Integer resultDetailId;
 
+    // アンケート番号
+    @Column(nullable = false)
+    private int questionnaireNo;
+
+    // ドキュメントタイプ（単一選択回答、複数選択回答、コメント回答）
+    private Question.DocType docType;
+
     // 質問事項
     @Column(nullable = false)
     private String description;

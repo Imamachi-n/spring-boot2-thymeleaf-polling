@@ -22,7 +22,7 @@ public class Questionnaire {
     private Integer questionnaireId;
 
     // アンケートのタイトル
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     public Questionnaire(String title){
