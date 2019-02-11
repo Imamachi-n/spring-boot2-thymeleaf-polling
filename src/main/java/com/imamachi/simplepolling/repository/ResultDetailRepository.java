@@ -1,8 +1,13 @@
 package com.imamachi.simplepolling.repository;
 
+import com.imamachi.simplepolling.form.ResultChartData;
+import com.imamachi.simplepolling.model.Result;
 import com.imamachi.simplepolling.model.ResultDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ResultDetailRepository extends JpaRepository<ResultDetail, Integer> {
@@ -10,4 +15,17 @@ public interface ResultDetailRepository extends JpaRepository<ResultDetail, Inte
     // xxxRepository#findById
     // xxxRepository#save
     // xxxRepository#deleteById
+
+    @Query(value = "select new com.imamachi.simplepolling.form.ResultChartData(" +
+            "rd.answerId, rd.answer, rd.questionnaireNo, rd.description, rd.docType, count(rd)) " +
+            "from ResultDetail rd where rd.result IN :result and rd.docType <> 2" +
+            "group by rd.answerId, rd.questionnaireNo " +
+            "order by rd.questionnaireNo, rd.answerId")
+    List<ResultChartData> findQuestionnaireCount(List<Result> result);
+
+    @Query(value = "select new com.imamachi.simplepolling.form.ResultChartData(" +
+            "rd.answerId, rd.answer, rd.questionnaireNo, rd.description, rd.docType) " +
+            "from ResultDetail rd where rd.result IN :result and rd.docType = 2" +
+            "order by rd.questionnaireNo, rd.resultDetailId")
+    List<ResultChartData> findQuestionnaireComment(List<Result> result);
 }
