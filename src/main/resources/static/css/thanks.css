@@ -25,7 +25,14 @@ header, header .header-content {
     color: white;
 }
 
-h1 {
+h1{
+    border-radius: 15px;
+    padding: 10px 15px;
+    color: white;
+    background-color:rgba(0, 0, 0, 0.5);
+}
+
+h3{
     border-radius: 15px;
     padding: 10px 15px;
     color: white;
