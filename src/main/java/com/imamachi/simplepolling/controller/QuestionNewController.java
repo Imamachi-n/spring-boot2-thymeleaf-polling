@@ -1,22 +1,16 @@
 package com.imamachi.simplepolling.controller;
 
-import com.imamachi.simplepolling.form.QuestionDetailForm;
-import com.imamachi.simplepolling.form.QuestionForm;
 import com.imamachi.simplepolling.form.QuestionRootForm;
-import com.imamachi.simplepolling.model.Question;
-import com.imamachi.simplepolling.model.Questionnaire;
 import com.imamachi.simplepolling.service.QuestionService;
 import com.imamachi.simplepolling.service.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/create")
@@ -48,8 +42,21 @@ public class QuestionNewController {
     public String postConfirm(@Validated @ModelAttribute QuestionRootForm questionRootForm,
                               Model model){
 
-        this.questionnaireService.registerQuestionnaire(questionRootForm);
-        return "redirect:/create/questionNew";
+        try {
+            this.questionnaireService.registerQuestionnaire(questionRootForm);
+        }catch(DataIntegrityViolationException e){
+            model.addAttribute("accordionExpandIndex", 0);
+            model.addAttribute("questionRootForm", questionRootForm);
+            model.addAttribute("isError", true);
+            model.addAttribute("errorMsg", "アンケートの登録に失敗しました。アンケート名が重複していないか確認してください。");
+            return "/create/questionNew";
+        }
+
+        model.addAttribute("questionRootForm", questionnaireService.getQuestionnaireTemplate());
+        model.addAttribute("accordionExpandIndex", 0);
+        model.addAttribute("isError", false);
+        model.addAttribute("successMsg", "登録が完了しました。");
+        return "/create/questionNew";
     }
 
     // アンケート内容の増減・アンケートの登録
@@ -68,6 +75,7 @@ public class QuestionNewController {
                 model.addAttribute("accordionExpandIndex", 0);
                 model.addAttribute("questionRootForm", questionRootForm);
                 model.addAttribute("isError", true);
+                model.addAttribute("errorMsg", "入力していないフォームを埋めてください。");
                 return "/create/questionNew";
             }
 
