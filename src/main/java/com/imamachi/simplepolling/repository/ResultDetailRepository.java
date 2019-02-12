@@ -16,6 +16,7 @@ public interface ResultDetailRepository extends JpaRepository<ResultDetail, Inte
     // xxxRepository#save
     // xxxRepository#deleteById
 
+    // 質問事項の回答数を取得
     @Query(value = "select new com.imamachi.simplepolling.form.ResultChartData(" +
             "rd.answerId, rd.answer, rd.questionnaireNo, rd.description, rd.docType, count(rd)) " +
             "from ResultDetail rd where rd.result IN :result and rd.docType <> 2" +
@@ -23,6 +24,7 @@ public interface ResultDetailRepository extends JpaRepository<ResultDetail, Inte
             "order by rd.questionnaireNo, rd.answerId")
     List<ResultChartData> findQuestionnaireCount(List<Result> result);
 
+    // コメントのリストを取得
     @Query(value = "select new com.imamachi.simplepolling.form.ResultChartData(" +
             "rd.answerId, rd.answer, rd.questionnaireNo, rd.description, rd.docType) " +
             "from ResultDetail rd where rd.result IN :result and rd.docType = 2" +

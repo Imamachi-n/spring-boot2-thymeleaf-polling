@@ -27,35 +27,24 @@ public class ChartServiceImpl implements ChartService {
     }
 
     @Override
-    public boolean getQuestionnaireResult(Questionnaire questionnaire, List<List<ChartForm>> chartForms, List<String> qType,
-    List<String> chartQName, List<List<ChartForm>> commentForms, List<String> commentQName, List<ChartRootData> chartRootData){
-//        chartForms = new ArrayList<>();
-//        qType = new ArrayList<>();
+    public boolean getQuestionnaireResult(Questionnaire questionnaire, List<ChartRootData> chartRootData){
 
+        // アンケート結果を取得する
         List<Result> result = resultRepository.getResultsByQuestionnaire(questionnaire);
         if(result.size() == 0) return false;
         List<ResultChartData> resultChartDataList =  resultDetailRepository.findQuestionnaireCount(result);
         List<ResultChartData> resultChartComments =  resultDetailRepository.findQuestionnaireComment(result);
 
         // 質問ごとに結果数をまとめる
-//        List<ChartRootData> chartRootData = new ArrayList<>();
-        Map<Integer, ArrayList<ChartForm>> chartData = new LinkedHashMap<>();
-        Map<Integer, String> chartType = new LinkedHashMap<>();
+        Map<Integer, String> chartData = new HashMap<>();
         int counter = -1;
         for(ResultChartData resultChartData : resultChartDataList) {
             int no = resultChartData.getQuestionnaireNo();
             if(chartData.containsKey(no)){
-                chartData.get(no).add(new ChartForm(resultChartData.getAnswer(), resultChartData.getCount().toString()));
-
                 chartRootData.get(counter).getChartData()
                         .add(new ChartForm(resultChartData.getAnswer(), resultChartData.getCount().toString()));
             }else{
-                ArrayList<ChartForm> tmp = new ArrayList<>();
-                tmp.add(new ChartForm(resultChartData.getAnswer(), resultChartData.getCount().toString()));
-                chartData.put(no, tmp);
-
-                chartType.put(no, resultChartData.getDocType().toString());
-                chartQName.add(resultChartData.getDescription());
+                chartData.put(no, "");
 
                 chartRootData.add(new ChartRootData(resultChartData.getQuestionnaireNo(), resultChartData.getDescription(), resultChartData.getDocType()));
                 chartRootData.get(++counter).getChartData()
@@ -63,29 +52,14 @@ public class ChartServiceImpl implements ChartService {
             }
         }
 
-        for(int questionId : chartType.keySet()){
-            qType.add(chartType.get(questionId));
-        }
-
-        for(int questionId : chartData.keySet()){
-            chartForms.add(chartData.get(questionId));
-        }
-
         // 質問ごとにコメントをまとめる
-        Map<Integer, ArrayList<String>> chartComment = new HashMap<>();
         for(ResultChartData resultChartData : resultChartComments) {
             int no = resultChartData.getQuestionnaireNo();
-            if(chartComment.containsKey(no)){
-                chartComment.get(no).add(resultChartData.getAnswer());
-
+            if(chartData.containsKey(no)){
                 chartRootData.get(counter).getChartData()
                         .add(new ChartForm(resultChartData.getAnswer(), ""));
             }else{
-                ArrayList<String> tmp = new ArrayList<>();
-                tmp.add(resultChartData.getAnswer());
-                chartComment.put(no, tmp);
-
-                commentQName.add(resultChartData.getDescription());
+                chartData.put(no, "");
 
                 chartRootData.add(new ChartRootData(resultChartData.getQuestionnaireNo(), resultChartData.getDescription(), resultChartData.getDocType()));
                 chartRootData.get(++counter).getChartData()

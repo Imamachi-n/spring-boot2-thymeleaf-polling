@@ -38,22 +38,9 @@ public class ChartController {
         model.addAttribute("currentQuestionnaireId", questionnaire.getQuestionnaireId());
 
         // アンケート集計
-
-        // テスト
-        List<List<ChartForm>> chartForms = new ArrayList<>();
-        List<String> qType = new ArrayList<>();
-        List<String> chartQName = new ArrayList<>();
-        List<List<ChartForm>> commentForms = new ArrayList<>();
-        List<String> commentQName = new ArrayList<>();
-
         List<ChartRootData> chartRootData = new ArrayList<>();
+        chartService.getQuestionnaireResult(questionnaire, chartRootData);
 
-        chartService.getQuestionnaireResult(questionnaire, chartForms, qType, chartQName, commentForms, commentQName, chartRootData);
-
-        model.addAttribute("chartData", chartForms);
-        model.addAttribute("chartType", qType);
-        model.addAttribute("chartQName", chartQName);
-        model.addAttribute("commentQName", commentQName);
         model.addAttribute("chartRootData", chartRootData);
 
         return "/chart/dashboard";
