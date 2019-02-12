@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "respondent")
+@Table(name = "respondent",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name", "questionnaireId"}))
 @Data
 @NoArgsConstructor
 public class Respondent {
