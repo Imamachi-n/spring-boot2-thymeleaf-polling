@@ -86,17 +86,17 @@
         }
 
         /*<![CDATA[*/
-        /*[# th:each="chartDataItem, status : ${chartData}"]*/
-            /*[# th:if="${chartType[status.index] != 'commentQ'}"]*/
-                var data[[${status.index}]] = /*[[${chartDataItem}]]*/ [];
+        /*[# th:each="chartDataItem, status : ${chartRootData}"]*/
+            /*[# th:if="${chartDataItem.docType.toString() != 'commentQ'}"]*/
+                var data[[${status.index}]] = /*[[${chartDataItem.chartData}]]*/ [];
                 var dataArray[[${status.index}]] = convert2Array(data[[${status.index}]]);
 
-                /*[# th:if="${chartType[status.index] == 'singleQ'}"]*/
+                /*[# th:if="${chartDataItem.docType.toString() == 'singleQ'}"]*/
                     var drawChart[[${status.index}]] = new drawChart();
                 /*[/]*/
 
-                /*[# th:if="${chartType[status.index] == 'multiQ'}"]*/
-                var drawChart[[${status.index}]] = new drawStuff();
+                /*[# th:if="${chartDataItem.docType.toString() == 'multiQ'}"]*/
+                    var drawChart[[${status.index}]] = new drawStuff();
                 /*[/]*/
 
                 drawChart[[${status.index}]].setViewData(dataArray[[${status.index}]]);
@@ -135,14 +135,14 @@
     </form>
 
     <!-- グラフ -->
-    <div th:each="item, status : ${chartType}">
-        <div th:if="${item == 'singleQ'}">
-            <h2><i class="far fa-file-alt"></i> Q.[[${status.index + 1}]]</h2>
+    <div th:each="item, status : ${chartRootData}">
+        <div th:if="${item.docType.toString() == 'singleQ'}">
+            <h2><i class="far fa-file-alt"></i> Q.[[${item.questionnaireNo}]] [[${item.questionnaire}]]</h2>
             <div th:id="'myPieChart' + ${status.index}" style="width: 650px; height: 350px;"></div>
         </div>
 
-        <div th:if="${item == 'multiQ'}">
-            <h2><i class="far fa-file-alt"></i> Q.[[${status.index + 1}]]</h2>
+        <div th:if="${item.docType.toString() == 'multiQ'}">
+            <h2><i class="far fa-file-alt"></i> Q.[[${item.questionnaireNo}]] [[${item.questionnaire}]]</h2>
             <div th:id="'myPieChart' + ${status.index}" style="width: 650px; height: 350px;"></div>
             <br/>
             <br/>
