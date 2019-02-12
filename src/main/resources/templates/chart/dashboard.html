@@ -52,8 +52,8 @@
                 return function(){
                     // Define the chart to be drawn.
                     var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Element');
-                    data.addColumn('number', 'Percentage');
+                    data.addColumn('string', ' ');
+                    data.addColumn('number', '回答数');
                     data.addRows(viewData);
 
                     var options = {
@@ -62,10 +62,10 @@
                         bars: 'horizontal', // Required for Material Bar Charts.
                         axes: {
                             x: {
-                                0: { side: 'top', label: '%'} // Top x-axis.
+                                0: { side: 'top', label: '回答数'} // Top x-axis.
                             }
                         },
-                        bar: { groupWidth: "90%" }
+                        bar: { groupWidth: "50%" }
                     };
 
                     // Instantiate and draw the chart.
@@ -116,7 +116,7 @@
 <!-- main container -->
 <div class="container"><br/>
     <!-- アンケートの選択 -->
-    <form name="form1" method="post" action="/home" th:action="@{/home}">
+    <form name="form1" method="post" action="/chart/dashboard" th:action="@{/chart/dashboard}">
         <div class="form-group row">
             <label for="questionTitle" class="col-sm-2 col-form-label">
                 選択中のアンケート
@@ -124,6 +124,7 @@
             <div class="col-sm-8">
                 <select class="form-control" name="questionnaireId" id="questionTitle">
                     <option th:each="questionnaire, status: ${questionnaires}" th:text="${questionnaire.title}"
+                            name="questionnaireId"
                             th:value="${questionnaire.questionnaireId}"
                             th:selected="${questionnaire.questionnaireId == currentQuestionnaireId}"></option>
                 </select>

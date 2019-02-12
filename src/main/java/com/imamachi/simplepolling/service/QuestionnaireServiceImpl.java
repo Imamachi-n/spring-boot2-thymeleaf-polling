@@ -82,6 +82,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
         return questionRootForm;
     }
 
+    // アンケートの取得
+    @Override
+    public Questionnaire getQuestionnaireById(Integer questionnaireId){
+        return questionnaireRepository.findById(questionnaireId).get();
+    }
+
     // アンケートの登録
     @Override
     public Boolean registerQuestionnaire(QuestionRootForm questionRootForm){

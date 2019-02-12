@@ -40,6 +40,7 @@ public class QuestionnaireController {
 
         // アンケートのタイトルを取得する
         model.addAttribute("title", currentQuestionnaire.getQuestionnaire().getTitle());
+        model.addAttribute("isError", "");
         return "/questionnaire/top";
     }
 
@@ -47,8 +48,16 @@ public class QuestionnaireController {
     @PostMapping("/top")
     public String getForm(@RequestParam(name = "username") String username,
                           Model model){
+
         // アンケートの情報を取得
         CurrentQuestionnaire currentQuestionnaire = this.questionnaireService.getCurrentQuestionnaire();
+
+        // ユーザ名が入力されていない場合、再入力を求める
+        if(username.equals("")){
+            model.addAttribute("title", currentQuestionnaire.getQuestionnaire().getTitle());
+            model.addAttribute("isError", "社員番号（0A番号）を入力してください。");
+            return "/questionnaire/top";
+        }
 
         // アンケートのタイトルを取得する
         model.addAttribute("title", currentQuestionnaire.getQuestionnaire().getTitle());
