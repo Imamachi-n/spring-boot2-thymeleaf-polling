@@ -45,10 +45,13 @@ public class QuestionnaireController {
 
     // アンケートフォームへの遷移
     @PostMapping("/top")
-    public String getForm(@RequestParam(name = "title") String title,
-                          @RequestParam(name = "username") String username,
+    public String getForm(@RequestParam(name = "username") String username,
                           Model model){
-        model.addAttribute("title", title);
+        // アンケートの情報を取得
+        CurrentQuestionnaire currentQuestionnaire = this.questionnaireService.getCurrentQuestionnaire();
+
+        // アンケートのタイトルを取得する
+        model.addAttribute("title", currentQuestionnaire.getQuestionnaire().getTitle());
         model.addAttribute("username", username);
 
         List<Question> questionList = questionService.getQuestionnaireInfo();

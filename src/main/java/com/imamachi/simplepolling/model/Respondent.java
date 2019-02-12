@@ -17,7 +17,7 @@ public class Respondent {
     private Integer respondentId;
 
     // アンケートに回答した人
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     // アンケート情報

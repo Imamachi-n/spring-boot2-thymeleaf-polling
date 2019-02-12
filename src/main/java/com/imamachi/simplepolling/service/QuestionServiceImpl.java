@@ -7,11 +7,9 @@ import com.imamachi.simplepolling.model.Question;
 import com.imamachi.simplepolling.model.Questionnaire;
 import com.imamachi.simplepolling.repository.CurrentQuestionnaireRepository;
 import com.imamachi.simplepolling.repository.QuestionRepository;
-import com.imamachi.simplepolling.repository.QuestionnaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -147,7 +147,17 @@
             <br/>
             <br/>
         </div>
+
+        <div th:if="${item.docType.toString() == 'commentQ'}">
+            <h2><i class="far fa-file-alt"></i> Q.[[${item.questionnaireNo}]] [[${item.questionnaire}]]</h2>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="eachItem : ${item.chartData}" th:text="${eachItem.key}"></li>
+            </ul>
+        </div>
     </div>
+    <br/>
+    <br/>
+    <br/>
 </div>
 <!-- end of main container -->
 
