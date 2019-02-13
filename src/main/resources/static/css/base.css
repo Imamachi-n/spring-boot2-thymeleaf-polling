@@ -1,11 +1,13 @@
 @font-face {
     font-family: KosugiMaru;
     src:url(../font/KosugiMaru-Regular.ttf) format("truetype");
+    src:url(../font/KosugiMaru-Regular.eot);
 }
 
 @font-face {
     font-family: OpenSans;
     src:url(../font/OpenSans-Regular.ttf) format("truetype");
+    src:url(../font/OpenSans-Regular.eot)
 }
 
 body {
