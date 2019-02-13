@@ -1,12 +1,20 @@
 @font-face {
     font-family: KosugiMaru;
     src:url(../font/KosugiMaru-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: KosugiMaru4IE;
     src:url(../font/KosugiMaru-Regular.eot)
 }
 
 @font-face {
     font-family: OpenSans;
     src:url(../font/OpenSans-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: OpenSans4IE;
     src:url(../font/OpenSans-Regular.eot)
 }
 
@@ -22,7 +30,7 @@
 }
 
 body {
-    font-family: 'OpenSans', 'KosugiMaru', 'Kosugi', 'HG丸ｺﾞｼｯｸM-PRO';
+    font-family: 'OpenSans', 'OpenSans4IE', 'KosugiMaru', 'KosugiMaru4IE', 'HG丸ｺﾞｼｯｸM-PRO';
     font-weight: 400;
     transform: rotate(0.001deg);
 }
