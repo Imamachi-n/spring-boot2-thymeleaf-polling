@@ -24,7 +24,7 @@
     <br>
 
     <div class="row col-sm-6 mx-auto">
-        <form method="post" action="/questionnaire/top" th:action="@{/questionnaire/top}">
+        <form method="post" action="/questionnaire/top" th:action="@{/questionnaire/top}" th:object="${employeeForm}">
             <div class="header clearfix">
                 <h3 class="text-center" th:text="${title}"></h3>
                 <!-- 渡すパラメータ -->
@@ -33,19 +33,46 @@
 
             <hr/>
 
-            <!-- status -->
-            <!--<div class="alert alert-danger" th:if="${error}" role="alert">-->
-                <!--ユーザ名・パスワードが間違っています。-->
-            <!--</div>-->
-            <!-- end of status -->
+            <!-- 部署 -->
+            <div class="form-group row">
+                <label for="department">部署
+                    <i class="fas fa-question-circle" data-placement="right"
+                       data-toggle="tooltip" data-original-title="あなたの部署を入力してください。"></i>
+                </label>
+                <select class="custom-select form-control" id="department" th:field="*{departmentName}">
+                    <option th:value="ERROR" selected>選択してください...</option>
+                    <option th:each="departmentItem : ${departmentList}"
+                            th:text="${departmentItem}"
+                            th:value="${departmentItem}">
+                    </option>
+                </select>
+                <div class="invalid-feedback" th:text="${isError}"></div>
+            </div>
 
+            <!-- 従業員ステータス -->
+            <div class="form-group row">
+                <label for="employee">所属
+                    <i class="fas fa-question-circle" data-placement="right"
+                       data-toggle="tooltip" data-original-title="あなたの所属を入力してください。"></i>
+                </label>
+                <select class="custom-select form-control" id="employee" th:field="*{employeeStatus}">
+                    <option th:value="ERROR" selected>選択してください...</option>
+                    <option th:each="employeeItem : ${employeeList}"
+                            th:text="${employeeItem}"
+                            th:value="${employeeItem}">
+                    </option>
+                </select>
+                <div class="invalid-feedback" th:text="${isError}"></div>
+            </div>
+
+            <!-- 社員番号（OA番号） -->
             <div class="form-group row">
                 <label for="username">社員番号（OA番号）
                     <i class="fas fa-question-circle" data-placement="right"
                        data-toggle="tooltip" data-original-title="あなたのOA番号を入力してください。"></i>
                 </label>
                 <input class="form-control" type="text"
-                       id="username" name="username"
+                       id="username" th:field="*{employeeId}"
                        placeholder="例）123456" autofocus="autofocus"
                        th:classappend="${isError != ''} ? 'is-invalid'">
                     <div class="invalid-feedback" th:text="${isError}"></div>

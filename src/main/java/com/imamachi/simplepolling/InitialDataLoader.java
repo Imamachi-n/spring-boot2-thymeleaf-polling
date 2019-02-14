@@ -1,12 +1,7 @@
 package com.imamachi.simplepolling;
 
-import com.imamachi.simplepolling.model.CurrentQuestionnaire;
-import com.imamachi.simplepolling.model.Question;
-import com.imamachi.simplepolling.model.QuestionDetail;
-import com.imamachi.simplepolling.model.Questionnaire;
-import com.imamachi.simplepolling.repository.CurrentQuestionnaireRepository;
-import com.imamachi.simplepolling.repository.QuestionRepository;
-import com.imamachi.simplepolling.repository.QuestionnaireRepository;
+import com.imamachi.simplepolling.model.*;
+import com.imamachi.simplepolling.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -30,14 +25,20 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private QuestionnaireRepository questionnaireRepository;
     private QuestionRepository questionRepository;
     private CurrentQuestionnaireRepository currentQuestionnaireRepository;
+    private EmployeeRepository employeeRepository;
+    private DepartmentRepository departmentRepository;
 
     @Autowired
     public InitialDataLoader(QuestionnaireRepository questionnaireRepository,
                              QuestionRepository questionRepository,
-                             CurrentQuestionnaireRepository currentQuestionnaireRepository) {
+                             CurrentQuestionnaireRepository currentQuestionnaireRepository,
+                             EmployeeRepository employeeRepository,
+                             DepartmentRepository departmentRepository) {
         this.questionnaireRepository = questionnaireRepository;
         this.questionRepository = questionRepository;
         this.currentQuestionnaireRepository = currentQuestionnaireRepository;
+        this.employeeRepository = employeeRepository;
+        this.departmentRepository = departmentRepository;
     }
 
     @Override
@@ -144,5 +145,31 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
                 Arrays.asList(questionDetail_X), questionnaire);
         questionDetail_X.setQuestion((questionX));
         questionRepository.save(questionX);
+
+        // 従業員ステータスの用意
+        Employee employee1 = new Employee(Employee.Status.一般社員);
+        employeeRepository.save(employee1);
+        Employee employee2 = new Employee(Employee.Status.管理職);
+        employeeRepository.save(employee2);
+        Employee employee3 = new Employee(Employee.Status.パートナー社員);
+        employeeRepository.save(employee3);
+
+        // 部署情報の用意
+        Department department1 = new Department("システム開発部");
+        departmentRepository.save(department1);
+        Department department2 = new Department("ラボシステム部");
+        departmentRepository.save(department2);
+        Department department3 = new Department("検査システム部");
+        departmentRepository.save(department3);
+        Department department4 = new Department("顧客システム部");
+        departmentRepository.save(department4);
+        Department department5 = new Department("システム企画部");
+        departmentRepository.save(department5);
+        Department department6 = new Department("システム管理部");
+        departmentRepository.save(department6);
+        Department department7 = new Department("基盤システム部");
+        departmentRepository.save(department7);
+        Department department8 = new Department("総務部");
+        departmentRepository.save(department8);
     }
 }

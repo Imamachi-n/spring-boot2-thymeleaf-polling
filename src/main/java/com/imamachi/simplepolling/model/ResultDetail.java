@@ -23,6 +23,14 @@ public class ResultDetail {
     // ドキュメントタイプ（単一選択回答、複数選択回答、コメント回答）
     private Question.DocType docType;
 
+    // 従業員ステータス
+    @Column(nullable = false)
+    private Employee.Status employeeStatus;
+
+    // 部署名
+    @Column(nullable = false)
+    private String departmentName;
+
     // 質問事項
     @Column(nullable = false)
     private String description;

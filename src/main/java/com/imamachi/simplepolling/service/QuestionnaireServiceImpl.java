@@ -3,19 +3,14 @@ package com.imamachi.simplepolling.service;
 import com.imamachi.simplepolling.form.QuestionDetailForm;
 import com.imamachi.simplepolling.form.QuestionForm;
 import com.imamachi.simplepolling.form.QuestionRootForm;
-import com.imamachi.simplepolling.model.CurrentQuestionnaire;
-import com.imamachi.simplepolling.model.Question;
-import com.imamachi.simplepolling.model.QuestionDetail;
-import com.imamachi.simplepolling.model.Questionnaire;
-import com.imamachi.simplepolling.repository.CurrentQuestionnaireRepository;
-import com.imamachi.simplepolling.repository.QuestionDetailRepository;
-import com.imamachi.simplepolling.repository.QuestionRepository;
-import com.imamachi.simplepolling.repository.QuestionnaireRepository;
+import com.imamachi.simplepolling.model.*;
+import com.imamachi.simplepolling.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -24,17 +19,17 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
     private CurrentQuestionnaireRepository currentQuestionnaireRepository;
     private QuestionnaireRepository questionnaireRepository;
     private QuestionRepository questionRepository;
-    private QuestionDetailRepository questionDetailRepository;
+    private DepartmentRepository departmentRepository;
 
     @Autowired
     public QuestionnaireServiceImpl(CurrentQuestionnaireRepository currentQuestionnaireRepository,
                                     QuestionnaireRepository questionnaireRepository,
                                     QuestionRepository questionRepository,
-                                    QuestionDetailRepository questionDetailRepository){
+                                    DepartmentRepository departmentRepository){
         this.currentQuestionnaireRepository = currentQuestionnaireRepository;
         this.questionnaireRepository = questionnaireRepository;
         this.questionRepository = questionRepository;
-        this.questionDetailRepository = questionDetailRepository;
+        this.departmentRepository = departmentRepository;
     }
 
     // アンケートのタイトルを取得
@@ -119,4 +114,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
         return true;
     }
 
+    // 部署リストの取得
+    @Override
+    public List<String> getDepartmentAll(){
+        return departmentRepository.findAll()
+                .stream()
+                .map(item -> item.getDepartmentName())
+                .collect(Collectors.toList());
+    }
 }
