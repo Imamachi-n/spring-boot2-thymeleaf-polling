@@ -102,7 +102,8 @@ public class ResultServiceImpl implements ResultService {
                 if(resultDetail.getAnswer() == null || resultDetail.getAnswer().equals("")) continue;
 
                 ResultDetail resultDetailTmp = new ResultDetail(Integer.parseInt(resultForm.getQuestionnaireNo()),
-                        resultForm.getDocType(), resultForm.getDescription(), number, resultDetail.getAnswer());
+                        resultForm.getDocType(), resultForm.getDescription(), number, resultDetail.getAnswer(),
+                        resultRootForm.getEmployeeStatus(), resultRootForm.getDepartmentName());
                 resultDetailTmp.setResult(result);
                 resultDetails.add(resultDetailTmp);
             }

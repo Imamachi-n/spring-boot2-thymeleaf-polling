@@ -48,11 +48,13 @@ public class ResultDetail {
     private Result result;
 
     public ResultDetail(int questionnaireNo, Question.DocType docType, String description,
-                        int answerId, String answer){
+                        int answerId, String answer, Employee.Status employeeStatus, String departmentName){
         this.questionnaireNo = questionnaireNo;
         this.docType = docType;
         this.description = description;
         this.answerId = answerId;
         this.answer = answer;
+        this.employeeStatus = employeeStatus;
+        this.departmentName = departmentName;
     }
 }

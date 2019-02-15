@@ -73,6 +73,8 @@ public class QuestionnaireController {
         CurrentQuestionnaire currentQuestionnaire = this.questionnaireService.getCurrentQuestionnaire();
         model.addAttribute("title", currentQuestionnaire.getQuestionnaire().getTitle());
 
+        model.addAttribute("employeeForm", employeeForm);
+
         if(employeeForm.getDepartmentName().equals("ERROR")){
             model.addAttribute("departmentNameError", "ERROR");
         }else{
@@ -80,7 +82,6 @@ public class QuestionnaireController {
         }
 
         if(result.hasErrors() || employeeForm.getDepartmentName().equals("ERROR")){
-            model.addAttribute("employeeForm", employeeForm);
             init(model);
             return "/questionnaire/top";
         }

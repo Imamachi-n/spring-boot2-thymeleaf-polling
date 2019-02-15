@@ -41,7 +41,9 @@
         <form method="post" action="/questionnaire/form" th:action="@{/questionnaire/form}" th:object="${resultRootForm}">
             <!-- タイトル -->
             <input type="hidden" name="questionnaireTitle" th:value="${title}" >
-            <input type="hidden" name="username" th:value="${username}" >
+            <input type="hidden" name="username" th:value="${employeeForm.employeeId}" >
+            <input type="hidden" name="employeeStatus" th:value="${employeeForm.employeeStatus}" >
+            <input type="hidden" name="departmentName" th:value="${employeeForm.departmentName}" >
 
             <div th:each="question, status : ${questionList}">
                 <!-- 質問内容 -->
