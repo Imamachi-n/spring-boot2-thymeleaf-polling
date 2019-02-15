@@ -55,6 +55,7 @@ public class QuestionnaireController {
 
         // 所属・部署のリスト
         init(model);
+        model.addAttribute("departmentNameError", "");
 
         // アンケートのタイトルを取得する
         model.addAttribute("employeeForm", new EmployeeForm());
@@ -72,7 +73,13 @@ public class QuestionnaireController {
         CurrentQuestionnaire currentQuestionnaire = this.questionnaireService.getCurrentQuestionnaire();
         model.addAttribute("title", currentQuestionnaire.getQuestionnaire().getTitle());
 
-        if(result.hasErrors()){
+        if(employeeForm.getDepartmentName().equals("ERROR")){
+            model.addAttribute("departmentNameError", "ERROR");
+        }else{
+            model.addAttribute("departmentNameError", "");
+        }
+
+        if(result.hasErrors() || employeeForm.getDepartmentName().equals("ERROR")){
             model.addAttribute("employeeForm", employeeForm);
             init(model);
             return "/questionnaire/top";

@@ -39,14 +39,15 @@
                     <i class="fas fa-question-circle" data-placement="right"
                        data-toggle="tooltip" data-original-title="あなたの部署を入力してください。"></i>
                 </label>
-                <select class="custom-select form-control" id="department" th:field="*{departmentName}">
+                <select class="custom-select form-control" id="department" th:field="*{departmentName}"
+                        th:classappend="${departmentNameError == 'ERROR'} ? 'is-invalid bg-white'">
                     <option th:value="ERROR" selected>選択してください...</option>
                     <option th:each="departmentItem : ${departmentList}"
                             th:text="${departmentItem}"
                             th:value="${departmentItem}">
                     </option>
                 </select>
-                <div class="invalid-feedback" th:text="${isError}"></div>
+                <div class="invalid-feedback">部署を選択してください。</div>
             </div>
 
             <!-- 従業員ステータス -->
@@ -55,14 +56,15 @@
                     <i class="fas fa-question-circle" data-placement="right"
                        data-toggle="tooltip" data-original-title="あなたの所属を入力してください。"></i>
                 </label>
-                <select class="custom-select form-control" id="employee" th:field="*{employeeStatus}">
+                <select class="custom-select form-control" id="employee" th:field="*{employeeStatus}"
+                        th:classappend="${#fields.hasErrors('employeeStatus')} ? 'is-invalid bg-white'">
                     <option th:value="ERROR" selected>選択してください...</option>
                     <option th:each="employeeItem : ${employeeList}"
                             th:text="${employeeItem}"
                             th:value="${employeeItem}">
                     </option>
                 </select>
-                <div class="invalid-feedback" th:text="${isError}"></div>
+                <span class="invalid-feedback">所属を選択してください。</span>
             </div>
 
             <!-- 社員番号（OA番号） -->
@@ -74,8 +76,8 @@
                 <input class="form-control" type="text"
                        id="username" th:field="*{employeeId}"
                        placeholder="例）123456" autofocus="autofocus"
-                       th:classappend="${isError != ''} ? 'is-invalid'">
-                    <div class="invalid-feedback" th:text="${isError}"></div>
+                       th:classappend="${#fields.hasErrors('employeeId')} ? 'is-invalid'">
+                    <div class="invalid-feedback">社員番号（OA番号）を入力してください。</div>
             </div>
 
             <div class="form-group row">
