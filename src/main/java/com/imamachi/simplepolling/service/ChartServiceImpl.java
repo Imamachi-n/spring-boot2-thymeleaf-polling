@@ -37,7 +37,8 @@ public class ChartServiceImpl implements ChartService {
         // データの取得
         List<ResultChartData> resultChartDataList;
         List<ResultChartData> resultChartComments;
-        if(chartSelectForm.getDepartmentName().equals("DEFAULT") && chartSelectForm.getEmployeeStatus().equals("DEFAULT")) {
+        if((chartSelectForm.getDepartmentName() == null && chartSelectForm.getEmployeeStatus() == null)
+        || (chartSelectForm.getDepartmentName().equals("DEFAULT") && chartSelectForm.getEmployeeStatus().equals("DEFAULT"))) {
             resultChartDataList = resultDetailRepository.findQuestionnaireCount(result);
             resultChartComments = resultDetailRepository.findQuestionnaireComment(result);
         }else if(!chartSelectForm.getDepartmentName().equals("DEFAULT") && chartSelectForm.getEmployeeStatus().equals("DEFAULT")) {
