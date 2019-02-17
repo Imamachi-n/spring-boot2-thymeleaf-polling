@@ -2,6 +2,7 @@ package com.imamachi.simplepolling.service;
 
 import com.imamachi.simplepolling.form.ChartForm;
 import com.imamachi.simplepolling.form.ChartRootData;
+import com.imamachi.simplepolling.form.ChartSelectForm;
 import com.imamachi.simplepolling.form.ResultChartData;
 import com.imamachi.simplepolling.model.Questionnaire;
 import com.imamachi.simplepolling.model.Result;
@@ -27,14 +28,30 @@ public class ChartServiceImpl implements ChartService {
     }
 
     @Override
-    public boolean getQuestionnaireResult(Questionnaire questionnaire, List<ChartRootData> chartRootData){
+    public boolean getQuestionnaireResult(Questionnaire questionnaire, List<ChartRootData> chartRootData, ChartSelectForm chartSelectForm){
 
         // アンケート結果を取得する
         List<Result> result = resultRepository.getResultsByQuestionnaire(questionnaire);
         if(result.size() == 0) return false;
-        List<ResultChartData> resultChartDataList =  resultDetailRepository.findQuestionnaireCount(result);
-        List<ResultChartData> resultChartComments =  resultDetailRepository.findQuestionnaireComment(result);
 
+        // データの取得
+        List<ResultChartData> resultChartDataList;
+        List<ResultChartData> resultChartComments;
+        if(chartSelectForm.getDepartmentName().equals("DEFAULT") && chartSelectForm.getEmployeeStatus().equals("DEFAULT")) {
+            resultChartDataList = resultDetailRepository.findQuestionnaireCount(result);
+            resultChartComments = resultDetailRepository.findQuestionnaireComment(result);
+        }else if(!chartSelectForm.getDepartmentName().equals("DEFAULT") && chartSelectForm.getEmployeeStatus().equals("DEFAULT")) {
+            resultChartDataList = resultDetailRepository.findQuestionnaireCountByDepertment(result, chartSelectForm.getDepartmentName());
+            resultChartComments = resultDetailRepository.findQuestionnaireCommentByDepartment(result, chartSelectForm.getDepartmentName());
+        }else if(chartSelectForm.getDepartmentName().equals("DEFAULT") && !chartSelectForm.getEmployeeStatus().equals("DEFAULT")){
+            resultChartDataList = resultDetailRepository.findQuestionnaireCountByEmployee(result, chartSelectForm.getEmployeeStatus());
+            resultChartComments = resultDetailRepository.findQuestionnaireCommentByEmployee(result, chartSelectForm.getEmployeeStatus());
+        }else {
+            resultChartDataList = resultDetailRepository.findQuestionnaireCountByDepertmentAndEmployee(result,
+                    chartSelectForm.getDepartmentName(), chartSelectForm.getEmployeeStatus());
+            resultChartComments = resultDetailRepository.findQuestionnaireCommentByDepartmentAndEmployee(result,
+                    chartSelectForm.getDepartmentName(), chartSelectForm.getEmployeeStatus());
+        }
         // 質問ごとに結果数をまとめる
         Map<Integer, String> chartData = new HashMap<>();
         int counter = -1;

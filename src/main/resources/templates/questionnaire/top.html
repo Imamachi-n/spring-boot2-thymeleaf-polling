@@ -52,12 +52,12 @@
 
             <!-- 従業員ステータス -->
             <div class="form-group row">
-                <label for="employee">所属
+                <label for="employee">職制
                     <i class="fas fa-question-circle" data-placement="right"
                        data-toggle="tooltip" data-original-title="あなたの所属を入力してください。"></i>
                 </label>
                 <select class="custom-select form-control" id="employee" th:field="*{employeeStatus}"
-                        th:classappend="${#fields.hasErrors('employeeStatus')} ? 'is-invalid bg-white'">
+                        th:classappend="${employeeNameError == 'ERROR'} ? 'is-invalid bg-white'">
                     <option th:value="ERROR" selected>選択してください...</option>
                     <option th:each="employeeItem : ${employeeList}"
                             th:text="${employeeItem}"

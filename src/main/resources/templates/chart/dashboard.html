@@ -116,17 +116,55 @@
 <!-- main container -->
 <div class="container"><br/>
     <!-- アンケートの選択 -->
-    <form name="form1" method="post" action="/chart/dashboard" th:action="@{/chart/dashboard}">
+    <form name="form1" method="post" action="/chart/dashboard" th:action="@{/chart/dashboard}" th:object="${chartSelectForm}">
         <div class="form-group row">
             <label for="questionTitle" class="col-sm-2 col-form-label">
                 選択中のアンケート
             </label>
             <div class="col-sm-8">
-                <select class="form-control" name="questionnaireId" id="questionTitle">
+                <select class="form-control" id="questionTitle" th:field="*{questionnaireId}">
                     <option th:each="questionnaire, status: ${questionnaires}" th:text="${questionnaire.title}"
                             name="questionnaireId"
                             th:value="${questionnaire.questionnaireId}"
                             th:selected="${questionnaire.questionnaireId == currentQuestionnaireId}"></option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-secondary">変更する</button>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="department" class="col-sm-2 col-form-label">
+                部署
+            </label>
+            <div class="col-sm-8">
+                <select class="form-control" id="department" th:field="*{departmentName}">
+                    <option th:value="DEFAULT" th:selected="${currentDepartment == null}">すべて</option>
+                    <option th:each="departmentItem : ${departmentList}"
+                            th:text="${departmentItem}"
+                            th:value="${departmentItem}"
+                            th:selected="${departmentItem == currentDepartment}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-secondary">変更する</button>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="employee" class="col-sm-2 col-form-label">
+                職制
+            </label>
+            <div class="col-sm-8">
+                <select class="form-control" id="employee" th:field="*{employeeStatus}">
+                    <option th:value="DEFAULT" th:selected="${currentEmployee == null}">すべて</option>
+                    <option th:each="employeeItem : ${employeeList}"
+                            th:text="${employeeItem}"
+                            th:value="${employeeItem}"
+                            th:selected="${employeeItem == currentEmployee}">
+                    </option>
                 </select>
             </div>
             <div class="col-sm-2">

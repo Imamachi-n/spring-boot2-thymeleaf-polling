@@ -20,16 +20,19 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
     private QuestionnaireRepository questionnaireRepository;
     private QuestionRepository questionRepository;
     private DepartmentRepository departmentRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     public QuestionnaireServiceImpl(CurrentQuestionnaireRepository currentQuestionnaireRepository,
                                     QuestionnaireRepository questionnaireRepository,
                                     QuestionRepository questionRepository,
-                                    DepartmentRepository departmentRepository){
+                                    DepartmentRepository departmentRepository,
+                                    EmployeeRepository employeeRepository){
         this.currentQuestionnaireRepository = currentQuestionnaireRepository;
         this.questionnaireRepository = questionnaireRepository;
         this.questionRepository = questionRepository;
         this.departmentRepository = departmentRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     // アンケートのタイトルを取得
@@ -120,6 +123,15 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
         return departmentRepository.findAll()
                 .stream()
                 .map(item -> item.getDepartmentName())
+                .collect(Collectors.toList());
+    }
+
+    // 職制リストの取得
+    @Override
+    public List<String> getEmployeeAll(){
+        return employeeRepository.findAll()
+                .stream()
+                .map(item -> item.getEmployeeStatus())
                 .collect(Collectors.toList());
     }
 }

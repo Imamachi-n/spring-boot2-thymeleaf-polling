@@ -18,4 +18,6 @@ public interface QuestionnaireService {
     Boolean registerQuestionnaire(QuestionRootForm questionRootForm);
 
     List<String> getDepartmentAll();
+
+    List<String> getEmployeeAll();
 }

@@ -21,7 +21,7 @@ public class ResultRootForm {
     private String username;
 
     // 従業員ステータス
-    private Employee.Status employeeStatus;
+    private String employeeStatus;
 
     // 部署名
     private String departmentName;

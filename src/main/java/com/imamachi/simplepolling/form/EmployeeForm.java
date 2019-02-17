@@ -19,7 +19,7 @@ public class EmployeeForm {
 
     // 所属
     @NotNull(message = "所属を選択してください。")
-    private Employee.Status employeeStatus;
+    private String employeeStatus;
 
     // 部署
     @NotNull(message = "部署を選択してください。")

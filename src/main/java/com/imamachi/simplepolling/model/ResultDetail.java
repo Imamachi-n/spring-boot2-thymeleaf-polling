@@ -25,7 +25,7 @@ public class ResultDetail {
 
     // 従業員ステータス
     @Column(nullable = false)
-    private Employee.Status employeeStatus;
+    private String employeeStatus;
 
     // 部署名
     @Column(nullable = false)
@@ -48,7 +48,7 @@ public class ResultDetail {
     private Result result;
 
     public ResultDetail(int questionnaireNo, Question.DocType docType, String description,
-                        int answerId, String answer, Employee.Status employeeStatus, String departmentName){
+                        int answerId, String answer, String employeeStatus, String departmentName){
         this.questionnaireNo = questionnaireNo;
         this.docType = docType;
         this.description = description;

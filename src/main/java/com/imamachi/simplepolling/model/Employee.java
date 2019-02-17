@@ -19,13 +19,13 @@ public class Employee {
 
     // 従業員ステータス
     @Column(nullable = false, unique = true)
-    private Status employeeStatus;
+    private String employeeStatus;
 
-    public static enum Status {
-        一般社員, 管理職, パートナー社員
-    }
+//    public static enum Status {
+//        一般社員, 管理職, パートナー社員
+//    }
 
-    public Employee(Status employeeStatus){
+    public Employee(String employeeStatus){
         this.employeeStatus = employeeStatus;
     }
 }

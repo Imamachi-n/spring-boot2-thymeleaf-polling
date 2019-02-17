@@ -147,11 +147,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         questionRepository.save(questionX);
 
         // 従業員ステータスの用意
-        Employee employee1 = new Employee(Employee.Status.一般社員);
+        Employee employee1 = new Employee("一般社員");
         employeeRepository.save(employee1);
-        Employee employee2 = new Employee(Employee.Status.管理職);
+        Employee employee2 = new Employee("管理職");
         employeeRepository.save(employee2);
-        Employee employee3 = new Employee(Employee.Status.パートナー社員);
+        Employee employee3 = new Employee("パートナー社員");
         employeeRepository.save(employee3);
 
         // 部署情報の用意
