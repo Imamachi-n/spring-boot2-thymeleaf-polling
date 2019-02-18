@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>アンケート作成システム - アンケート作成画面</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
+    <!--<link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>-->
+    <link href="//css/base.css" th:href="@{/css/base.css}" rel="stylesheet" />
+</head>
+<body style="padding-top: 70px">
+
+<!-- menu -->
+<div th:replace="/fragments/menu :: menu(target = 'edit')"></div>
+<!-- end of menu -->
+
+<!-- main container -->
+<div class="container"><br/>
+    <div class="header clearfix">
+        <h3 class="text-muted">
+            <i class="far fa-file-alt"></i> アンケート修正
+        </h3>
+    </div>
+
+    <div class="container">
+        <form name="formFirst" method="post">
+            <div class="form-group row">
+                <label for="questionTitle1" class="col-sm-2 col-form-label">
+                    修正対象のアンケート
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control" name="questionnaireId" id="questionTitle1">
+                        <option th:each="questionnaire, status: ${questionnaires}" th:text="${questionnaire.title}"
+                                th:value="${questionnaire.questionnaireId}"
+                                th:selected="${questionnaire.questionnaireId == currentQuestionnaireId}"></option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-secondary">修正する</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- CSRFトークンを埋め込むのに必要 th:action="@{/item/confirm}" -->
+        <!-- CSRFトークンがないと、Request method 'POST' not supportedとエラーになる -->
+        <form name="form1" method="post" action="/edit/questionEdit"
+              th:action="@{/edit/questionEdit}" th:object="${questionRootForm}"
+              th:if="${showRevObject}">
+
+            <!-- エラーメッセージ -->
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${(#fields.hasErrors() && isError) || isError}">
+                <div th:if="${(#fields.hasErrors() && isError) || isError}">
+                    <span th:text="${errorMsg}"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 登録メッセージ -->
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMsg != null}">
+                <span th:text="${successMsg}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- 入力フォーム本文 -->
+            <div class="form-group row">
+                <label for="questionTitle" class="col-sm-2 col-form-label">アンケートタイトル</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="questionTitle" placeholder="質問内容を記載してください。"
+                           th:field="*{title}" th:classappend="${#fields.hasErrors('title') && isError} ? 'is-invalid'">
+                    <div class="invalid-feedback">
+                        タイトルを入力してください。
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2 mr-1">
+                    <select class="form-control" name="addDocType">
+                        <option value="singleQ">単一選択回答</option>
+                        <option value="multiQ">複数選択回答</option>
+                        <option value="commentQ">コメント回答</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-3 ml-0">
+                    <button type="submit" class="btn btn-primary"
+                            th:name="submit" th:value="'question:add:0'">
+                        <i class="fas fa-plus-circle fa-lg"></i> 質問を追加する
+                    </button>
+                </div>
+
+                <div class="col text-right">
+                    <a class="btn btn-outline-secondary" th:href="'#accordion' + ${accordionExpandIndex}"  role="button">
+                        <i class="fas fa-arrow-alt-circle-down fa-lg"></i> 追加した質問へジャンプ
+                    </a>
+                </div>
+            </div>
+
+            <div class="accordion" id="accordionExample">
+                <!-- start of card -->
+                <div th:id="'accordion' + ${status.index}" class="card" th:each="questionForm, status : ${questionRootForm.questions}">
+                    <div class="card-header form-group row clearfix" th:id="'heading' + ${status.index}">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    th:attr="data-target='#collapse' + ${status.index},aria-controls='collapse' + ${status.index}"
+                                    aria-expanded="false"
+                                    th:text="'アンケート質問' + ${status.index + 1}">
+                            </button>
+                            <button type="submit" class="btn btn-outline-danger btn-sm pull-right"
+                                    th:name="submit" th:value="'question:delete:' + ${status.index}">
+                                <i class="fas fa-times-circle fa-lg"></i> 削除
+                            </button>
+                        </h2>
+                    </div>
+
+                    <!-- th:classappend 変更を加えた質問事項を開く -->
+                    <div th:id="'collapse' + ${status.index}" class="collapse" th:classappend="${status.index == accordionExpandIndex} ? 'show'"
+                         th:attr="aria-labelledby='heading' + ${status.index}" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <!-- start of content -->
+                            <!-- 質問事項 -->
+                            <div class="form-group row">
+                                <label for="questionDesc" class="col-sm-2 col-form-label">質問事項</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="questionDesc" placeholder="質問内容を記載してください。"
+                                           th:field="*{questions[__${status.index}__].questionDesc}"
+                                           th:classappend="${#fields.hasErrors('*{questions[__${status.index}__].questionDesc}') && isError} ? 'is-invalid'">
+                                    <div class="invalid-feedback">
+                                        質問事項を入力してください。
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ドキュメントタイプ -->
+                            <div class="form-group row">
+                                <label for="questionDesc" class="col-sm-2 col-form-label">ドキュメントタイプ</label>
+                                <div class="col-sm-10">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <!-- 単一選択回答 -->
+                                        <button type="button" class="btn"
+                                                th:classappend="${questionForm.docType.toString() == 'singleQ'} ? 'btn-primary' : 'btn-secondary'"
+                                                th:field="*{questions[__${status.index}__].docType}" th:value="'singleQ'">
+                                            単一選択回答
+                                        </button>
+                                        <!-- Formオブジェクトに渡す値を格納 -->
+                                        <input type="hidden" th:if="${questionForm.docType.toString() == 'singleQ'}"
+                                               th:field="*{questions[__${status.index}__].docType}" th:value="'singleQ'">
+
+                                        <!-- 複数選択回答 -->
+                                        <button type="button" class="btn"
+                                                th:classappend="${questionForm.docType.toString() == 'multiQ'} ? 'btn-primary' : 'btn-secondary'"
+                                                th:field="*{questions[__${status.index}__].docType}" th:value="'multiQ'">
+                                            複数選択回答
+                                        </button>
+                                        <!-- Formオブジェクトに渡す値を格納 -->
+                                        <input type="hidden" th:if="${questionForm.docType.toString() == 'multiQ'}"
+                                               th:field="*{questions[__${status.index}__].docType}" th:value="'multiQ'">
+
+                                        <!-- コメント回答 -->
+                                        <button type="button" class="btn"
+                                                th:classappend="${questionForm.docType.toString() == 'commentQ'} ? 'btn-primary' : 'btn-secondary'"
+                                                th:field="*{questions[__${status.index}__].docType}" th:value="'commentQ'">
+                                            コメント回答
+                                        </button>
+                                        <!-- Formオブジェクトに渡す値を格納 -->
+                                        <input type="hidden" th:if="${questionForm.docType.toString() == 'commentQ'}"
+                                               th:field="*{questions[__${status.index}__].docType}" th:value="'commentQ'">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 単一選択回答 - 選択事項 -->
+                            <div class="form-group row" th:if="${questionForm.docType.toString() == 'singleQ'}">
+                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
+                                <div class="col-sm-10">
+                                    <!-- 単一選択回答内容 -->
+                                    <div class="input-group mb-3" th:each="questionDetails, statusDetail : ${questionForm.questionDetails}">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="radio" aria-label="Checkbox for following text input" checked disabled>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Text input with checkbox"
+                                               placeholder="回答内容を記載してください。"
+                                               th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}"
+                                               th:classappend="${#fields.hasErrors('*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}') && isError} ? 'is-invalid'">
+                                        <div class="invalid-feedback">
+                                            質問事項を入力してください。
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary"
+                                            th:name="submit" th:value="'content:add:' + ${status.index}">
+                                        追加する
+                                    </button>
+                                    <button type="submit" class="btn btn-danger"
+                                            th:name="submit" th:value="'content:delete:' + ${status.index}">
+                                        削除する
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 複数選択回答 - 選択事項 -->
+                            <div class="form-group row" th:if="${questionForm.docType.toString() == 'multiQ'}">
+                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
+                                <div class="col-sm-10">
+                                    <!-- 複数選択回答内容 -->
+                                    <div class="input-group mb-3" th:each="questionDetails, statusDetail : ${questionForm.questionDetails}">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="checkbox" aria-label="Checkbox for following text input" checked disabled>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Text input with checkbox"
+                                               placeholder="回答内容を記載してください。"
+                                               th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}"
+                                               th:classappend="${#fields.hasErrors('*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].description}') && isError} ? 'is-invalid'">
+                                        <div class="invalid-feedback">
+                                            質問事項を入力してください。
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary"
+                                            th:name="submit" th:value="'content:add:' + ${status.index}">
+                                        追加する
+                                    </button>
+                                    <button type="submit" class="btn btn-danger"
+                                            th:name="submit" th:value="'content:delete:' + ${status.index}">
+                                        削除する
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- コメント回答 - 選択事項 -->
+                            <div class="form-group row" th:if="${questionForm.docType.toString() == 'commentQ'}">
+                                <label for="questionDesc" class="col-sm-2 col-form-label">選択事項</label>
+                                <div class="col-sm-10">
+                                    <div class="mb-3">
+                                        <textarea class="form-control" id="validationTextarea" placeholder="自由にコメントを記載してください。" disabled></textarea>
+                                        <!--<input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[0].description}">-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--　end of content　-->
+                        </div>
+                    </div>
+                </div>
+                <!-- end of card -->
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    <button type="submit" th:name="'submit'" th:value="'submit'" class="btn btn-primary">登録する</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- end of main container -->
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:href="@{/webjars/font-awesome/js/all.js}"></script>
+</body>
+</html>

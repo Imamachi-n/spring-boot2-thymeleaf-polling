@@ -18,16 +18,16 @@
     src:url(../font/OpenSans-Regular.eot)
 }
 
-@font-face {
-    font-family: NotoSansJP;
-    src:url(../font/NotoSansJP-Regular.otf) format('opentype');
-}
+/*@font-face {*/
+    /*font-family: NotoSansJP;*/
+    /*src:url(../font/NotoSansJP-Regular.otf) format('opentype');*/
+/*}*/
 
-@font-face {
-    font-family: Kosugi;
-    src:url(../font/Kosugi-Regular.ttf) format("truetype");
-    src:url(../font/Kosugi-Regular.eot)
-}
+/*@font-face {*/
+    /*font-family: Kosugi;*/
+    /*src:url(../font/Kosugi-Regular.ttf) format("truetype");*/
+    /*src:url(../font/Kosugi-Regular.eot)*/
+/*}*/
 
 body {
     font-family: 'OpenSans', 'OpenSans4IE', 'KosugiMaru', 'KosugiMaru4IE', 'HG丸ｺﾞｼｯｸM-PRO';
