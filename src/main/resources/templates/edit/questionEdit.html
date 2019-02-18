@@ -23,10 +23,11 @@
     </div>
 
     <div class="container">
-        <form name="formFirst" method="post">
+        <form name="formFirst" method="post" action="/edit/edit"
+        th:action="@{/edit/edit}">
             <div class="form-group row">
                 <label for="questionTitle1" class="col-sm-2 col-form-label">
-                    修正対象のアンケート
+                    修正対象アンケート
                 </label>
                 <div class="col-sm-8">
                     <select class="form-control" name="questionnaireId" id="questionTitle1">
