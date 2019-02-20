@@ -12,6 +12,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class QuestionDetailForm {
 
+    // ID
+    private Integer id;
+
     @NotBlank(message = "質問項目を入力してください。")
     private String description;
 

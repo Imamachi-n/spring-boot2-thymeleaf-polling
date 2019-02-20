@@ -14,6 +14,9 @@ import java.util.List;
 @Setter
 public class QuestionForm {
 
+    // ID
+    private Integer id;
+
     // ドキュメントタイプ（単一選択回答、複数選択回答、コメント回答）
     private Question.DocType docType;
 
@@ -31,6 +34,13 @@ public class QuestionForm {
     public QuestionForm(Question.DocType docType, boolean requirement){
         this.docType = docType;
         this.requirement = requirement;
+    }
+
+    public QuestionForm(Question.DocType docType, boolean requirement, String questionDesc, List<QuestionDetailForm> questionDetails){
+        this.docType = docType;
+        this.requirement = requirement;
+        this.questionDesc = questionDesc;
+        this.questionDetails = questionDetails;
     }
 
     public QuestionForm(){}

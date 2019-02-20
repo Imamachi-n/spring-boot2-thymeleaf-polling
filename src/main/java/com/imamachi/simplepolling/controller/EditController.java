@@ -1,5 +1,7 @@
 package com.imamachi.simplepolling.controller;
 
+import com.imamachi.simplepolling.form.QuestionRootForm;
+import com.imamachi.simplepolling.model.Questionnaire;
 import com.imamachi.simplepolling.service.EditService;
 import com.imamachi.simplepolling.service.HomeService;
 import com.imamachi.simplepolling.service.QuestionService;
@@ -56,7 +58,19 @@ public class EditController {
 
         // 現在のアンケートを取得
         model.addAttribute("questionnaires", homeService.getQuestionnaires());
-        model.addAttribute("currentQuestionnaireId", editService.getSelectedQuestionnaire(Integer.parseInt(questionnaireId)).getQuestionnaireId());
+        Questionnaire questionnaire = editService.getSelectedQuestionnaire(Integer.parseInt(questionnaireId));
+        model.addAttribute("currentQuestionnaireId", questionnaire.getQuestionnaireId());
+
+        // 選択したアンケートを取得
+        QuestionRootForm questionRootForm = editService.getQuestionForm(questionnaire);
+        model.addAttribute("questionRootForm", questionRootForm);
+
+        // アコーディオンの初期設定
+        model.addAttribute("accordionExpandIndex", 0);
+        model.addAttribute("isError", false);
+
+        // 修正対象の表示
+        model.addAttribute("showRevObject", true);
 
         return "/edit/questionEdit";
     }
