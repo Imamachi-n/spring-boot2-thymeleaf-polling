@@ -60,4 +60,15 @@ public class Question {
         this.questionDetail = questionDetail;
         this.questionnaire = questionnaire;
     }
+
+    public Question(Integer questionId, DocType docType, boolean requirement, String questionDesc,
+                    List<QuestionDetail> questionDetail, Questionnaire questionnaire){
+        this.questionId = questionId;
+        this.docType = docType;
+        this.requirement = requirement;
+        this.questionDesc = questionDesc;
+        this.createDate = java.sql.Date.valueOf(LocalDate.now());
+        this.questionDetail = questionDetail;
+        this.questionnaire = questionnaire;
+    }
 }

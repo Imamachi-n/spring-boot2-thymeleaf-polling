@@ -8,4 +8,6 @@ public interface EditService {
     Questionnaire getSelectedQuestionnaire(int questionnaireId);
 
     QuestionRootForm getQuestionForm(Questionnaire questionnaire);
+
+    Boolean updateQuestionnaire(QuestionRootForm questionRootForm);
 }

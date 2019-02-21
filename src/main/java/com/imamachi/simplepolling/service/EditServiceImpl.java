@@ -10,12 +10,14 @@ import com.imamachi.simplepolling.repository.QuestionRepository;
 import com.imamachi.simplepolling.repository.QuestionnaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class EditServiceImpl implements EditService {
 
     private QuestionnaireRepository questionnaireRepository;
@@ -47,6 +49,38 @@ public class EditServiceImpl implements EditService {
     public QuestionRootForm getQuestionForm(Questionnaire questionnaire){
         List<Question> questionList = questionRepository.findByQuestionnaireOrderByQuestionId(questionnaire);
         return transformQuestion2QuestionRootForm(questionList, questionnaire);
+    }
+
+    // アンケートの更新
+    @Override
+    @Transactional
+    public Boolean updateQuestionnaire(QuestionRootForm questionRootForm){
+
+        // アンケートタイトルをDBに格納
+        Questionnaire questionnaire = new Questionnaire(questionRootForm.getId(), questionRootForm.getTitle());
+        questionnaireRepository.save(questionnaire);
+
+        // アンケート内容をDBに格納
+        for(QuestionForm questionForm : questionRootForm.getQuestions()){
+            List<QuestionDetail> questionDetails = new ArrayList<>();
+            if(questionForm.getQuestionDetails() != null) {
+                for (QuestionDetailForm questionDetailForm : questionForm.getQuestionDetails()) {
+                    questionDetails.add(new QuestionDetail(questionDetailForm.getId(), questionDetailForm.getDescription()));
+                }
+            }
+
+            Question question = new Question(questionForm.getId(), questionForm.getDocType(), questionForm.isRequirement(),
+                    questionForm.getQuestionDesc(), questionDetails, questionnaire);
+
+            questionDetails.forEach(questionDetail -> {
+                questionDetail.setQuestion(question);
+            });
+
+            // DBに保存
+            questionRepository.save(question);
+        }
+
+        return true;
     }
 
     // QuestionオブジェクトをQuestionRootFormオブジェクトへ変換

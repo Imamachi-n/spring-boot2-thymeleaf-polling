@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "questionnaire")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Questionnaire {
 
@@ -26,6 +25,11 @@ public class Questionnaire {
     private String title;
 
     public Questionnaire(String title){
+        this.title = title;
+    }
+
+    public Questionnaire(Integer questionnaireId, String title){
+        this.questionnaireId = questionnaireId;
         this.title = title;
     }
 }

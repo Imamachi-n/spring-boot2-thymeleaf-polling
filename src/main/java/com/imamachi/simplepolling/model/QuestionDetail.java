@@ -27,4 +27,9 @@ public class QuestionDetail {
     public QuestionDetail(String description){
         this.description = description;
     }
+
+    public QuestionDetail(Integer questionDetailId, String description){
+        this.questionDetailId = questionDetailId;
+        this.description = description;
+    }
 }
