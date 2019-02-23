@@ -16,4 +16,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     List<Question> findByQuestionnaireOrderByQuestionId(Questionnaire questionnaire);
 
+    void deleteByQuestionnaire(Questionnaire questionnaire);
+
 }

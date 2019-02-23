@@ -29,6 +29,7 @@
     <hr/>
 
     <form method="post" action="/edit/confirm" th:action="@{/edit/confirm}" th:object="${questionRootForm}">
+        <input type="hidden" th:field="*{id}"/>
         <input type="hidden" th:field="*{title}"/>
 
         <div th:each="question, status : ${questionRootForm.questions}">
@@ -36,6 +37,7 @@
                 <h5 th:text="'Q' + ${status.index + 1} + '. ' + ${question.questionDesc}"></h5>
                 <span class="badge badge-pill badge-danger">必須</span>
                 <input type="hidden" th:field="*{questions[__${status.index}__].questionDesc}"/>
+                <input type="hidden" th:field="*{questions[__${status.index}__].id}"/>
             </div>
             <!-- start of content -->
             <!-- 単一選択回答内容 -->
@@ -51,6 +53,7 @@
                                th:text="${questionDetail.description}">
                         </label>
                         <input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[__${detailStatus.index}__].description}"/>
+                        <input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[__${detailStatus.index}__].id}"/>
                     </div>
                 </div>
             </div>
@@ -68,6 +71,7 @@
                                th:text="${questionDetail.description}">
                         </label>
                         <input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[__${detailStatus.index}__].description}"/>
+                        <input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[__${detailStatus.index}__].id}"/>
                     </div>
                 </div>
             </div>

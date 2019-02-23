@@ -57,18 +57,23 @@ public class EditServiceImpl implements EditService {
     public Boolean updateQuestionnaire(QuestionRootForm questionRootForm){
 
         // アンケートタイトルをDBに格納
-        Questionnaire questionnaire = new Questionnaire(questionRootForm.getId(), questionRootForm.getTitle());
+        Optional<Questionnaire> questionnaireOptional = questionnaireRepository.findById(questionRootForm.getId());
+        if(!questionnaireOptional.isPresent()) return false;
+        Questionnaire questionnaire = questionnaireOptional.get();
+        questionnaire.setTitle(questionRootForm.getTitle());
         questionnaireRepository.save(questionnaire);
 
         // アンケート内容をDBに格納
+        questionRepository.deleteByQuestionnaire(questionnaire);
         for(QuestionForm questionForm : questionRootForm.getQuestions()){
             List<QuestionDetail> questionDetails = new ArrayList<>();
             if(questionForm.getQuestionDetails() != null) {
                 for (QuestionDetailForm questionDetailForm : questionForm.getQuestionDetails()) {
-                    questionDetails.add(new QuestionDetail(questionDetailForm.getId(), questionDetailForm.getDescription()));
+                    questionDetails.add(new QuestionDetail(questionDetailForm.getDescription()));
                 }
             }
 
+//            questionRepository.deleteById(questionForm.getId());
             Question question = new Question(questionForm.getId(), questionForm.getDocType(), questionForm.isRequirement(),
                     questionForm.getQuestionDesc(), questionDetails, questionnaire);
 

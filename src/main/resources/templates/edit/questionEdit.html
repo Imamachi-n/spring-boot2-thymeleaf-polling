@@ -47,6 +47,7 @@
         <form name="form1" method="post" action="/edit/questionEdit"
               th:action="@{/edit/questionEdit}" th:object="${questionRootForm}"
               th:if="${showRevObject}">
+            <input type="hidden" th:field="*{id}"/>
 
             <!-- エラーメッセージ -->
             <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${(#fields.hasErrors() && isError) || isError}">
@@ -135,6 +136,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" th:field="*{questions[__${status.index}__].id}"/>
 
                             <!-- ドキュメントタイプ -->
                             <div class="form-group row">
@@ -192,6 +194,7 @@
                                         <div class="invalid-feedback">
                                             質問事項を入力してください。
                                         </div>
+                                        <input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].id}"/>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary"
@@ -223,6 +226,7 @@
                                         <div class="invalid-feedback">
                                             質問事項を入力してください。
                                         </div>
+                                        <input type="hidden" th:field="*{questions[__${status.index}__].questionDetails[__${statusDetail.index}__].id}"/>
                                     </div>
                                     <button type="submit" class="btn btn-primary"
                                             th:name="submit" th:value="'content:add:' + ${status.index}">
