@@ -33,8 +33,7 @@ public class EditController {
         this.editService = editService;
     }
 
-    @GetMapping("/questionEdit")
-    public String initialize(Model model) {
+    private void init(Model model){
         // 現在のアンケートを取得
         model.addAttribute("questionnaires", homeService.getQuestionnaires());
         model.addAttribute("currentQuestionnaireId", homeService.getCurrentQuestionnaire().getQuestionnaire().getQuestionnaireId());
@@ -47,7 +46,12 @@ public class EditController {
         // アコーディオンの初期設定
         model.addAttribute("accordionExpandIndex", 0);
         model.addAttribute("isError", false);
+    }
 
+    @GetMapping("/questionEdit")
+    public String initialize(Model model) {
+
+        init(model);
         return "/edit/questionEdit";
     }
 
@@ -155,6 +159,9 @@ public class EditController {
                                       Model model){
 
         editService.updateQuestionnaire(questionRootForm);
-        return "redirect:/edit/questionEdit";
+
+        model.addAttribute("successMsg", "対象のアンケートを更新しました。");
+        init(model);
+        return "/edit/questionEdit";
     }
 }
