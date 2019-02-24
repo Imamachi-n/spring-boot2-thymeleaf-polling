@@ -1,7 +1,7 @@
 spring:
   # active profile setting
   profiles:
-    active: development
+    active: mysql
 
   # Spring Data JPA settings
   jpa:
@@ -30,3 +30,51 @@ spring:
       enabled: true
       path: /h2-console
 
+---
+# 本番環境の設定
+spring:
+  profiles: postgres
+
+  # Postgres database settings
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5433/questionnairedb
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+---
+# 本番環境の設定
+spring:
+  profiles: mariadb
+
+  # mariadb database settings
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3307/questionnairedb_test
+    username: root
+    password: password
+    driver-class-name: org.mariadb.jdbc.Driver
+
+---
+# 本番環境の設定
+spring:
+  profiles: mysql
+
+  # mysql database settings
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3307/questionnairedb_test
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Spring Data JPA settings
+  jpa:
+    hibernate:
+      ddl-auto: update
