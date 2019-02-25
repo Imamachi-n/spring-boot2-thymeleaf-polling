@@ -31,3 +31,10 @@ docker run -it --rm --name mariadb-dev -e MYSQL_DATABASE=questionnairedb_test -e
 ```bash
 docker run -it --rm --name mysql-dev -e MYSQL_DATABASE=questionnairedb_test -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d mysql:8.0.15 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
+
+## jibを使ったSpring Bootアプリの起動
+```
+mvn compile jib:dockerBuild
+docker run --rm --name hellojib -p 8080:8080 simplepolling --link=mysql-dev --network="host"
+```
+

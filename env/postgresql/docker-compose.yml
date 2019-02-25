@@ -1,0 +1,31 @@
+version: '3'
+services:
+  postgres:
+    image: postgres-dev
+    restart: always
+    hostname: postgres-dev
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: questionnairedb
+#    container_name: mysql-docker-container
+#    networks:
+#      - my_mysql_net
+
+  app:
+    image: simplepolling
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+#    links:
+#      - mysql-docker-container
+#    networks:
+#      - my_mysql_net
+#
+#networks:
+#  my_mysql_net:
+#    driver: bridge

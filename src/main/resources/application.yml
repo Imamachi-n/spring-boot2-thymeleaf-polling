@@ -1,7 +1,7 @@
 spring:
   # active profile setting
   profiles:
-    active: mysql
+    active: postgres-docker
 
   # Spring Data JPA settings
   jpa:
@@ -53,6 +53,26 @@ spring:
 ---
 # 本番環境の設定
 spring:
+  profiles: postgres-docker
+
+  # Postgres database settings
+  datasource:
+    url: jdbc:postgresql://postgres-dev:5432/questionnairedb
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+---
+# 本番環境の設定
+spring:
   profiles: mariadb
 
   # mariadb database settings
@@ -72,6 +92,23 @@ spring:
     url: jdbc:mysql://127.0.0.1:3307/questionnairedb_test
     username: root
     password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Spring Data JPA settings
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+---
+# 本番環境の設定
+spring:
+  profiles: mysql-docker
+
+  # mysql database settings
+  datasource:
+    url: jdbc:mysql://mysql-docker-container:3307/questionnairedb_test
+    username: sboot
+    password: sboot
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   # Spring Data JPA settings
