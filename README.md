@@ -38,3 +38,19 @@ mvn compile jib:dockerBuild
 docker run --rm --name hellojib -p 8080:8080 simplepolling --link=mysql-dev --network="host"
 ```
 
+## Demo
+![](img/toppage.png)
+
+![](img/questionnaireNew1.png)
+
+![](img/questionnaireNew2.png)
+
+![](img/questionnaireEdit.png)
+
+![](img/usertop.png)
+
+![](img/userform.png)
+
+![](img/chart1.png)
+
+![](img/chart2.png)
