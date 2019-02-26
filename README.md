@@ -51,6 +51,8 @@ docker run --rm --name hellojib -p 8080:8080 simplepolling --link=mysql-dev --ne
 
 ![](img/userform.png)
 
+![](img/finish.png)
+
 ![](img/chart1.png)
 
 ![](img/chart2.png)
