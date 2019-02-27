@@ -1,7 +1,7 @@
 spring:
   # active profile setting
   profiles:
-    active: postgres-docker
+    active: mysql-docker
 
   # Spring Data JPA settings
   jpa:
@@ -106,9 +106,9 @@ spring:
 
   # mysql database settings
   datasource:
-    url: jdbc:mysql://mysql-docker-container:3307/questionnairedb_test
-    username: sboot
-    password: sboot
+    url: jdbc:mysql://mysql-docker-container/questionnairedb_test
+    username: root
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   # Spring Data JPA settings

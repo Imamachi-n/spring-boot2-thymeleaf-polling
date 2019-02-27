@@ -52,8 +52,11 @@ mvnw.cmd clean package
 ```
 
 ### 2. jibを使ったSpring Bootアプリの起動
+
+#### 2.1. PostgreSQLを使う場合
 まず、`application.yml`ファイルでProfileを`postgres-docker`に設定する。  
 次に、以下のコマンドを実行し、docker-composeにより、DBサーバとAPPサーバをDockerコンテナ上で起動する。
+
 ```bash
 # PostgreSQLのDockerイメージの作成
 docker build -t postgres-dev -f env/postgresql/Dockerfile env/postgresql/
@@ -63,6 +66,19 @@ mvn compile jib:dockerBuild
 
 # docker-composeの起動
 cd ./env/postgresql
+docker-compose up -d
+```
+
+#### 2.2. MySQLを使う場合
+まず、`application.yml`ファイルでProfileを`mysql-docker`に設定する。  
+次に、以下のコマンドを実行し、docker-composeにより、DBサーバとAPPサーバをDockerコンテナ上で起動する。
+
+```bash
+# Spring bootアプリ実行環境用のDockerイメージの作成
+mvn compile jib:dockerBuild
+
+# docker-composeの起動
+cd ./env/mysql
 docker-compose up -d
 ```
 
