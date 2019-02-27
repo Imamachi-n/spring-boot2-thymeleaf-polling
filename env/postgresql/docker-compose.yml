@@ -10,6 +10,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: questionnairedb
+    volumes:
+      - "./postgresql.conf:/etc/postgresql.conf"
 #    container_name: mysql-docker-container
 #    networks:
 #      - my_mysql_net

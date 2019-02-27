@@ -14,7 +14,7 @@
     <name>simplepolling</name>
     <description>Simple Polling System</description>
     <!-- WARファイル作成用 -->
-    <packaging>war</packaging>
+    <!--<packaging>war</packaging>-->
     <!-- end of WAR -->
 
     <properties>
@@ -65,11 +65,11 @@
         </dependency>
 
         <!-- Tomcat setting -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <!-- end of Tomcat setting -->
 
         <!-- Database -->

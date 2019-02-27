@@ -35,7 +35,7 @@ docker run -it --rm --name mysql-dev -e MYSQL_DATABASE=questionnairedb_test -e M
 ## Spring Boot2アプリの起動
 ### 1. Mavenを利用する場合
 以下のコマンドを実行し、Webアプリケーションをビルド・起動する。
-```
+```bash
 # For MacOS, Linux
 ./mvnw spring-boot:run
 
@@ -43,7 +43,7 @@ docker run -it --rm --name mysql-dev -e MYSQL_DATABASE=questionnairedb_test -e M
 mvnw.cmd spring-boot:run
 ```
 
-```
+```bash
 # For MacOS, Linux
 ./mvnw clean package
 
@@ -52,9 +52,18 @@ mvnw.cmd clean package
 ```
 
 ### 2. jibを使ったSpring Bootアプリの起動
-```
+まず、`application.yml`ファイルでProfileを`postgres-docker`に設定する。  
+次に、以下のコマンドを実行し、docker-composeにより、DBサーバとAPPサーバをDockerコンテナ上で起動する。
+```bash
+# PostgreSQLのDockerイメージの作成
+docker build -t postgres-dev -f env/postgresql/Dockerfile env/postgresql/
+
+# Spring bootアプリ実行環境用のDockerイメージの作成
 mvn compile jib:dockerBuild
-docker run --rm --name hellojib -p 8080:8080 simplepolling --link=mysql-dev --network="host"
+
+# docker-composeの起動
+cd ./env/postgresql
+docker-compose up -d
 ```
 
 ## Demo
