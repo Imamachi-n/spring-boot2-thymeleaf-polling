@@ -32,7 +32,26 @@ docker run -it --rm --name mariadb-dev -e MYSQL_DATABASE=questionnairedb_test -e
 docker run -it --rm --name mysql-dev -e MYSQL_DATABASE=questionnairedb_test -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d mysql:8.0.15 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
-## jibを使ったSpring Bootアプリの起動
+## Spring Boot2アプリの起動
+### 1. Mavenを利用する場合
+以下のコマンドを実行し、Webアプリケーションをビルド・起動する。
+```
+# For MacOS, Linux
+./mvnw spring-boot:run
+
+# For Windows
+mvnw.cmd spring-boot:run
+```
+
+```
+# For MacOS, Linux
+./mvnw clean package
+
+# For Windows
+mvnw.cmd clean package
+```
+
+### 2. jibを使ったSpring Bootアプリの起動
 ```
 mvn compile jib:dockerBuild
 docker run --rm --name hellojib -p 8080:8080 simplepolling --link=mysql-dev --network="host"

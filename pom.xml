@@ -13,6 +13,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>simplepolling</name>
     <description>Simple Polling System</description>
+    <!-- WARファイル作成用 -->
+    <packaging>war</packaging>
+    <!-- end of WAR -->
 
     <properties>
         <java.version>1.8</java.version>
@@ -60,6 +63,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Tomcat setting -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- end of Tomcat setting -->
 
         <!-- Database -->
         <dependency>
