@@ -5,6 +5,7 @@ import com.imamachi.simplepolling.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,17 +29,27 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private EmployeeRepository employeeRepository;
     private DepartmentRepository departmentRepository;
 
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
     public InitialDataLoader(QuestionnaireRepository questionnaireRepository,
                              QuestionRepository questionRepository,
                              CurrentQuestionnaireRepository currentQuestionnaireRepository,
                              EmployeeRepository employeeRepository,
-                             DepartmentRepository departmentRepository) {
+                             DepartmentRepository departmentRepository,
+                             UserRepository userRepository,
+                             RoleRepository roleRepository,
+                             PasswordEncoder passwordEncoder) {
         this.questionnaireRepository = questionnaireRepository;
         this.questionRepository = questionRepository;
         this.currentQuestionnaireRepository = currentQuestionnaireRepository;
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -171,5 +182,32 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         departmentRepository.save(department7);
         Department department8 = new Department("総務部");
         departmentRepository.save(department8);
+
+        // 管理者
+        createRoleIfNotFound(Role.RoleName.ADMIN);
+        createRoleIfNotFound(Role.RoleName.MANAGER);
+        createRoleIfNotFound(Role.RoleName.USER);
+        Role adminRole = roleRepository.findByRole(Role.RoleName.ADMIN);
+        Role userRole = roleRepository.findByRole(Role.RoleName.USER);
+
+        User user1 = new User("imamachi", "password");
+        User user2 = new User("admin", "password");
+        user1.setPassword(passwordEncoder.encode(user1.getPassword()));
+        user2.setPassword(passwordEncoder.encode(user2.getPassword()));
+        user1.setRoles(Arrays.asList(userRole));
+        user2.setRoles(Arrays.asList(adminRole, userRole));
+        userRole.setUsers(Arrays.asList(user1));
+        adminRole.setUsers(Arrays.asList(user2));
+        userRepository.save(user1);
+        userRepository.save(user2);
+    }
+
+    private Role createRoleIfNotFound(Role.RoleName roleName){
+        Role role = roleRepository.findByRole(roleName);
+        if (role == null) {
+            role = new Role(roleName);
+            roleRepository.save(role);
+        }
+        return role;
     }
 }
