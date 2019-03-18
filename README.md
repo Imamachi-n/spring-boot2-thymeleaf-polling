@@ -44,12 +44,21 @@ docker run -it --rm --name mysql-dev -e MYSQL_DATABASE=questionnairedb_test -e M
 mvnw.cmd spring-boot:run
 ```
 
+WAR・JARパッケージを作成する
 ```bash
 # For MacOS, Linux
 ./mvnw clean package
 
 # For Windows
-mvnw.cmd clean package
+mvnw.cmd -Dmaven.test.skip=true clean package
+```
+
+TomcatサーバでのWARファイルのサイズ制限でエラーになることがあるので、`conf/server.xml`に以下の設定を追加する。
+```xml
+<Connector port="8080" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+           redirectPort="8443"
+           maxPostSize="70428800" />
 ```
 
 ### 2. jibを使ったSpring Bootアプリの起動
