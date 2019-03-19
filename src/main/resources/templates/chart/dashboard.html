@@ -8,103 +8,49 @@
     <!--<link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>-->
     <link href="//css/base.css" th:href="@{/css/base.css}" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../static/js/google-charts-loader.js"
-            th:src="@{/js/google-charts-loader.js}"></script>
+    <link href="//css/Chart.min.css" th:href="@{/css/Chart.min.css}" rel="stylesheet" />
+    <script type="text/javascript" src="../../static/js/Chart.bundle.min.js"
+            th:src="@{/js/Chart.bundle.min.js}"></script>
     <script type="text/javascript" th:inline="javascript">
-        function drawChart() {
-            var viewData = [];
-            var title = "";
-            this.setViewData = function(tmpData){
-                viewData = tmpData;
-            };
-            this.setTitle = function(tmpTitle){
-                title = tmpTitle;
-            };
+        window.onload = function() {
+            function drawChart() {
+                var viewData = [];
+                var title = "";
+                this.setViewData = function (tmpData) {
+                    viewData = tmpData;
+                };
+                this.setTitle = function (tmpTitle) {
+                    title = tmpTitle;
+                };
+                this.get = function() {
+                    return function () {
 
-            // setOnLoadCallbackにセットするメソッド(関数を返す)
-            this.get = function(){
-                return function(){
-                    // Define the chart to be drawn.
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Element');
-                    data.addColumn('number', 'Percentage');
-                    data.addRows(viewData);
-
-                    // Instantiate and draw the chart.
-                    var chart = new google.visualization.PieChart(document.getElementById(title));
-                    chart.draw(data, null);
+                    }
                 }
             }
-        }
 
-        function drawStuff() {
-            var viewData = [];
-            var title = "";
-            this.setViewData = function(tmpData){
-                viewData = tmpData;
-            };
-            this.setTitle = function(tmpTitle){
-                title = tmpTitle;
-            };
-
-            // setOnLoadCallbackにセットするメソッド(関数を返す)
-            this.get = function(){
-                return function(){
-                    // Define the chart to be drawn.
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', ' ');
-                    data.addColumn('number', '回答数');
-                    data.addRows(viewData);
-
-                    var options = {
-                        width: 700,
-                        legend: { position: 'none' },
-                        bars: 'horizontal', // Required for Material Bar Charts.
-                        axes: {
-                            x: {
-                                0: { side: 'top', label: '回答数'} // Top x-axis.
+            var ctx = document.getElementById('myChart');
+            var myChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
                             }
-                        },
-                        bar: { groupWidth: "50%" }
-                    };
-
-                    // Instantiate and draw the chart.
-                    var chart = new google.charts.Bar(document.getElementById(title));
-                    chart.draw(data, options);
+                        }]
+                    }
                 }
-            };
+            });
         }
-
-        google.charts.load('current', {packages: ['corechart', 'bar']});
-
-        function convert2Array(data){
-            var result = [];
-            for(var i = 0; i < data.length; i++){
-                result.push([data[i].key, parseInt(data[i].value)]);
-            }
-            return result;
-        }
-
-        /*<![CDATA[*/
-        /*[# th:each="chartDataItem, status : ${chartRootData}"]*/
-            /*[# th:if="${chartDataItem.docType.toString() != 'commentQ'}"]*/
-                var data[[${status.index}]] = /*[[${chartDataItem.chartData}]]*/ [];
-                var dataArray[[${status.index}]] = convert2Array(data[[${status.index}]]);
-
-                /*[# th:if="${chartDataItem.docType.toString() == 'singleQ'}"]*/
-                    var drawChart[[${status.index}]] = new drawChart();
-                /*[/]*/
-
-                /*[# th:if="${chartDataItem.docType.toString() == 'multiQ'}"]*/
-                    var drawChart[[${status.index}]] = new drawStuff();
-                /*[/]*/
-
-                drawChart[[${status.index}]].setViewData(dataArray[[${status.index}]]);
-                drawChart[[${status.index}]].setTitle("myPieChart[[${status.index}]]");
-                google.charts.setOnLoadCallback(drawChart[[${status.index}]].get());
-            /*[/]*/
-        /*[/]*/
-        /*]]>*/
     </script>
 </head>
 <body style="padding-top: 70px">
@@ -172,17 +118,17 @@
             </div>
         </div>
     </form>
-
+    <canvas id="myChart" style="width: 650px; height: 350px;"></canvas>
     <!-- グラフ -->
     <div th:each="item, status : ${chartRootData}">
         <div th:if="${item.docType.toString() == 'singleQ'}">
             <h2><i class="far fa-file-alt"></i> Q.[[${item.questionnaireNo}]] [[${item.questionnaire}]]</h2>
-            <div th:id="'myPieChart' + ${status.index}" style="width: 650px; height: 350px;"></div>
+            <!--<canvas id="myChart" width="400" height="400"></canvas>-->
         </div>
 
         <div th:if="${item.docType.toString() == 'multiQ'}">
             <h2><i class="far fa-file-alt"></i> Q.[[${item.questionnaireNo}]] [[${item.questionnaire}]]</h2>
-            <div th:id="'myPieChart' + ${status.index}" style="width: 650px; height: 350px;"></div>
+            <!--<canvas id="myChart" width="400" height="400"></canvas>-->
             <br/>
             <br/>
         </div>
