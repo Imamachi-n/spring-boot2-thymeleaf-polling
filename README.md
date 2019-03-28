@@ -61,6 +61,15 @@ TomcatサーバでのWARファイルのサイズ制限でエラーになるこ�
            maxPostSize="70428800" />
 ```
 
+もしくは、`/webapps/manager/WEB-INF/web.xml`に、
+```xml
+<multipart-config>
+   <max-file-size>80428800</max-file-size>
+   <max-request-size>80428800</max-request-size>
+   <file-size-threshold>0</file-size-threshold>
+</multipart-config>
+```
+
 ### 2. jibを使ったSpring Bootアプリの起動
 
 #### 2.1. PostgreSQLを使う場合
