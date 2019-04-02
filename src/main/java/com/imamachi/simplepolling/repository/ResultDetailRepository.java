@@ -34,7 +34,7 @@ public interface ResultDetailRepository extends JpaRepository<ResultDetail, Inte
 
     @Query(value = "select new com.imamachi.simplepolling.form.ResultChartData(" +
             "rd.answerId, rd.answer, rd.questionnaireNo, rd.description, rd.docType, count(rd)) " +
-            "from ResultDetail rd where rd.result = :result and rd.departmentName = :department " +
+            "from ResultDetail rd where rd.result IN :result and rd.departmentName = :department " +
             "and rd.docType <> 2" +
             "group by rd.answerId, rd.questionnaireNo " +
             "order by rd.questionnaireNo, rd.answerId")

@@ -49,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/edit/**").hasRole(Role.RoleName.ADMIN.name())
                 .antMatchers("/chart/**").hasRole(Role.RoleName.ADMIN.name())
                 .anyRequest().authenticated()  // それ以外へのアクセスは認証が必須
+//                .and().csrf().ignoringAntMatchers("/h2-console/**")     // don't apply CSRF protection to /h2-console
+//                .and().headers().frameOptions().sameOrigin()            // allow use of frame to same origin urls allowed frame use (H2 console uses <frame></frame>) if the request come from the same origin (i.e. localhost:8080 in our example)
                 .and()
                 // ログイン設定
                 .formLogin()    // フォーム認証を行う
