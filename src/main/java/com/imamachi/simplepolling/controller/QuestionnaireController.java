@@ -93,6 +93,13 @@ public class QuestionnaireController {
             return "/questionnaire/top";
         }
 
+        // 社員番号・OA番号の重複チェック
+        if (!resultService.existRespondent(employeeForm.getEmployeeId(), currentQuestionnaire.getQuestionnaire())) {
+            init(model);
+            model.addAttribute("employeeIdError", "対象の社員番号・OA番号はすでにアンケート回答済みです。");
+            return "/questionnaire/top";
+        }
+
         List<Question> questionList = questionService.getQuestionnaireInfo();
         model.addAttribute("questionList", questionList);
         model.addAttribute("resultRootForm", new ResultRootForm());
@@ -119,7 +126,7 @@ public class QuestionnaireController {
         }catch(DataIntegrityViolationException e){
             System.out.println(e.getMessage());
             addAttribute2Form(model, resultRootForm);
-            addAttribute2Error(model, "すでに同じ社員番号（OA番号）で登録があります。", "");
+            addAttribute2Error(model, "データベースの登録に失敗しました…。", "");
             return "/questionnaire/form";
         }catch (Exception e){
             System.out.println(e.getMessage());

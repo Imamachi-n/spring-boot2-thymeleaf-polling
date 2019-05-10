@@ -73,6 +73,13 @@ public class ResultServiceImpl implements ResultService {
         return result;
     }
 
+    // 社員番号・OA番号の重複チェック
+    @Override
+    public boolean existRespondent(String employeeId, Questionnaire currentQuestionnaire){
+        List<Respondent> tmp = respondentRepository.getByNameAndAndQuestionnaire(employeeId, currentQuestionnaire);
+        return tmp.size() == 0;
+    }
+
     // アンケート結果の登録
     @Override
     @Transactional
