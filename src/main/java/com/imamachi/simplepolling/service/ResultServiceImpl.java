@@ -79,7 +79,7 @@ public class ResultServiceImpl implements ResultService {
     public boolean registerResult(ResultRootForm resultRootForm){
         // アンケート情報の取得
         Optional<Questionnaire> questionnaire = questionnaireRepository.findByTitle(resultRootForm.getQuestionnaireTitle());
-        if(!questionnaire.isPresent()) return false;
+        if (!questionnaire.isPresent()) return false;
 
         // ユーザの登録
         respondentRepository.save(new Respondent(resultRootForm.getUsername(), questionnaire.get()));
@@ -87,19 +87,19 @@ public class ResultServiceImpl implements ResultService {
         // 登録
         Result result = new Result(questionnaire.get());
         List<ResultDetail> resultDetails = new ArrayList<>();
-        for (ResultForm resultForm: resultRootForm.getResultForms()){
+        for (ResultForm resultForm : resultRootForm.getResultForms()) {
             // 回答がない場合、次の質問に移る
-            if(resultForm.getResultDetailForms() == null) continue;
+            if (resultForm.getResultDetailForms() == null) continue;
 
             // 各回答を登録
-            for(ResultDetailForm resultDetail : resultForm.getResultDetailForms()) {
+            for (ResultDetailForm resultDetail : resultForm.getResultDetailForms()) {
                 // 回答項目の番号の取得
                 String strNumber = resultDetail.getNumber();
                 int number = 1;
-                if(strNumber != null) number = Integer.parseInt(strNumber);
+                if (strNumber != null) number = Integer.parseInt(strNumber);
 
                 // 回答項目がない場合、次の回答項目に移る
-                if(resultDetail.getAnswer() == null || resultDetail.getAnswer().equals("")) continue;
+                if (resultDetail.getAnswer() == null || resultDetail.getAnswer().equals("")) continue;
 
                 ResultDetail resultDetailTmp = new ResultDetail(Integer.parseInt(resultForm.getQuestionnaireNo()),
                         resultForm.getDocType(), resultForm.getDescription(), number, resultDetail.getAnswer(),

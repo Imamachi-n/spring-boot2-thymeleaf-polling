@@ -1,7 +1,7 @@
 spring:
   # active profile setting
   profiles:
-    active: development
+    active: mysql
 
   # Spring Data JPA settings
   jpa:

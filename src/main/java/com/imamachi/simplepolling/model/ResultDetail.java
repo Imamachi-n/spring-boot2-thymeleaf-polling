@@ -40,7 +40,7 @@ public class ResultDetail {
     private int answerId;
 
     // 回答
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String answer;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)

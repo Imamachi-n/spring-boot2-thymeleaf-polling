@@ -44,13 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login/**").permitAll()  // loginは全ユーザーアクセス許可
                 .antMatchers("/questionnaire/**").permitAll()  // questionnaireは全ユーザーアクセス許可
-//                .antMatchers("/h2-console/**").permitAll()  // H2データベースは全ユーザーアクセス許可
+//                .antMatchers("/h2-console/**").permitAll()  // H2-console: H2データベースは全ユーザーアクセス許可
                 .antMatchers("/create/**").hasRole(Role.RoleName.ADMIN.name())
                 .antMatchers("/edit/**").hasRole(Role.RoleName.ADMIN.name())
                 .antMatchers("/chart/**").hasRole(Role.RoleName.ADMIN.name())
                 .anyRequest().authenticated()  // それ以外へのアクセスは認証が必須
-//                .and().csrf().ignoringAntMatchers("/h2-console/**")     // don't apply CSRF protection to /h2-console
-//                .and().headers().frameOptions().sameOrigin()            // allow use of frame to same origin urls allowed frame use (H2 console uses <frame></frame>) if the request come from the same origin (i.e. localhost:8080 in our example)
+//                .and().csrf().ignoringAntMatchers("/h2-console/**")     // H2-console: don't apply CSRF protection to /h2-console
+//                .and().headers().frameOptions().sameOrigin()            // H2-console: allow use of frame to same origin urls allowed frame use (H2 console uses <frame></frame>) if the request come from the same origin (i.e. localhost:8080 in our example)
                 .and()
                 // ログイン設定
                 .formLogin()    // フォーム認証を行う
