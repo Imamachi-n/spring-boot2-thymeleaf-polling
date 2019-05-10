@@ -111,11 +111,11 @@
                     <div class="col-sm-10">
                         <textarea class="form-control" th:id="'commentQ:' + ${status.index}"
                                   th:name="'resultForms[' + ${status.index}+ '].resultDetailForms[0].answer'"
-                                  placeholder="自由にコメントを記載してください。"
+                                  placeholder="自由にコメントを記載してください。" maxlength="1000"
                                   th:if="${employeeForm == null}">[[${resultRootForm.resultForms[__${status.index}__].resultDetailForms[0].answer}]]</textarea>
                         <textarea class="form-control" th:id="'commentQ:' + ${status.index}"
                                   th:name="'resultForms[' + ${status.index}+ '].resultDetailForms[0].answer'"
-                                  placeholder="自由にコメントを記載してください。"
+                                  placeholder="自由にコメントを記載してください。" maxlength="1000"
                                   th:if="${employeeForm != null}"></textarea>
                     </div>
                     <input type="hidden" th:name="'resultForms[' + ${status.index}+ '].docType'"
